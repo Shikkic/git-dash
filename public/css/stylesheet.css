@@ -1,0 +1,34 @@
+body {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+}
+
+#info {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+}
+
+#title {
+    font-size: 35px;
+    margin-bottom: 0px;
+    margin-top: 20px;
+}
+
+#title h1 {
+    margin-bottom: 0px;
+}
+
+#search {
+    position: absolute;
+    height: 40px;
+    width: 600px;
+    top: 5%;
+    left: 50%;
+    margin-left: -300px;
+
+    font-size: 20px;
+    text-align: center;
+}
+
