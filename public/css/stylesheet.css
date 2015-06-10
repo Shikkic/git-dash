@@ -2,6 +2,7 @@ body {
     position: absolute;
     height: 100%;
     width: 100%;
+    font-family: 'Roboto Slab'; 
 }
 
 #info {
@@ -17,6 +18,8 @@ body {
 }
 
 #title h1 {
+    font-weight: 100;
+    font-family: 'Roboto Slab'; 
     margin-bottom: 0px;
 }
 
@@ -30,5 +33,26 @@ body {
 
     font-size: 20px;
     text-align: center;
+    outline: none;
+    font-family: 'Roboto Slab';
+    font-weight: 100;
 }
 
+#profile {
+    border-style: hidden; 
+    position:absolute;
+    height: 250px;
+    width: 250px;
+    margin-left: 50px; 
+}
+
+#repo {
+    margin-left: 350px;
+    margin-bottom: 0px;
+    margin-top: 150px; 
+}
+
+#msg {
+     margin-left: 350px;
+     margin-bottom: 0px;
+}
