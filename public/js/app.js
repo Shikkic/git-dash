@@ -1,7 +1,6 @@
 $(document).ready(function() {
-  
+
    var app = {};
- 
    app.Git = Backbone.Model.extend({
       defaults: {
         imgUrl: '',
@@ -12,7 +11,7 @@ $(document).ready(function() {
     
    var ProfileView = Backbone.View.extend({
       el: $('#container'),
-      template: _.template("<img id="+"profile"+" src=<%= imgUrl %>><p id="+"repo"+"><%= repoName %><p id=msg><%= commitMsg %></p>"),
+      template: _.template("<li class="+".col-md-4"+"><img id="+"profile"+" src=<%= imgUrl %>><p id="+"repo"+"><%= repoName %><p id=msg><%= commitMsg %></p></li>"),
       initialize: function(){
         this.render();
       },
@@ -43,5 +42,5 @@ $(document).ready(function() {
             });
         }
     });
-    
+
 });
