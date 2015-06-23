@@ -9,21 +9,23 @@ $(document).ready(function() {
       }
    });
     
-   var ProfileView = Backbone.View.extend({
+    var ProfileView = Backbone.View.extend({
       el: $('#container'),
-      template: _.template("<li class="+".col-md-4"+"><img id="+"profile"+" src=<%= imgUrl %>><p id="+"repo"+"><%= repoName %><p id=msg><%= commitMsg %></p></li>"),
+      tagName: 'li',
+      template: _.template("<li class="+".col-md-4"+"><img id="+"profile"+" src=<%= imgUrl %>><p id="+"repo"+">Repo name: <%= repoName %><p id=msg>Commit Msg: <%= commitMsg %></p></li>"),
       initialize: function(){
         this.render();
       },
       render: function(){
         // render the function using substituting the varible 'who' for 'world!'.
-        this.$el.html(this.template(this.model.toJSON()));
+        this.$el.append(this.template(this.model.toJSON()));
         return this;
       }
     }); 
 
     var paramInfo = '';
     var objData = '';
+
     $('#search').keypress(function(e) {
         paramInfo = $('#search').val();
         var key = e.which;
