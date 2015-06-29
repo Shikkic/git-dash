@@ -11,11 +11,14 @@ $(document).ready(function() {
     
     var ProfileView = Backbone.View.extend({
       el: $('#container'),
+
       tagName: 'li',
-      template: _.template("<li class="+".col-md-4"+"><img id="+"profile"+" src=<%= imgUrl %>><p id="+"repo"+">Repo name: <%= repoName %><p id=msg>Commit Msg: <%= commitMsg %></p></li>"),
+
+      template: _.template("<li id="+"cards"+ " class='.col-md-4 animated zoomIn'"+"><a href='http://github.com/<%= user %>'><img id="+"profile"+" src=<%= imgUrl %>/></a><p id='name'><%= user %></p><p id="+"repo"+">Repo name: <%= repoName %><p id=msg>Commit Msg: <%= commitMsg %></p></li>"),
       initialize: function(){
         this.render();
       },
+
       render: function(){
         // render the function using substituting the varible 'who' for 'world!'.
         this.$el.append(this.template(this.model.toJSON()));
@@ -30,13 +33,19 @@ $(document).ready(function() {
         paramInfo = $('#search').val();
         var key = e.which;
         if(key == 13) {
+            $('#search').val('');
             $.ajax({
                 type: "GET",
                 url: '/git?name='+paramInfo,
             })
             .done(function(data) {
                 console.log(data);
-                var gitapp = new app.Git({imgUrl: data.actor.avatar_url, repoName: data.repo.name, commitMsg: data.payload.commits[0].message}); 
+                var gitapp = new app.Git({
+                    imgUrl: data.actor.avatar_url, 
+                    user: data.actor.login, 
+                    repoName: data.repo.name, 
+                    commitMsg: data.payload.commits[0].message
+            }); 
                 var view = new ProfileView({model: gitapp});
             })
             .fail(function() {

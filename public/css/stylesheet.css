@@ -2,7 +2,8 @@ body {
     position: absolute;
     height: 100%;
     width: 100%;
-    font-family: 'Roboto Slab'; 
+    font-family: 'Roboto Slab';
+    font-weight:300; 
 }
 
 #info {
@@ -41,11 +42,13 @@ body {
 #profile {
     list-style-type: none;
     border-style: hidden; 
+    border-radius: 4px;
     position:absolute;
-    height: 180px;
-    width: 180px;
-    margin-left: 30px;
-    margin-top: 30px;
+    margin-left: 20px;
+    margin-top: 20px;
+    max-width: 125px;
+    max-height: 125px;
+    box-shadow: 0px 0px 10px rgba(0,0,0,0.45);
 }
 
 #repo {
@@ -72,6 +75,10 @@ li {
    margin-left: 10px;
    border-color: #ccc;
    margin-bottom: 10px;
+}
+
+li:hover { 
+   box-shadow: 0px 0px 10px rgba(117, 211, 255, 1) ;
 }
 
 #container {
