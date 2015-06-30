@@ -43,6 +43,7 @@ app.get('/git', function(req, res) {
             res.send(data[count]);
         }
         console.log(response);
+        //console.log(data[count]);
     });
 });
 

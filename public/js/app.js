@@ -5,7 +5,8 @@ $(document).ready(function() {
       defaults: {
         imgUrl: '',
         repoName: '',
-        commitMsg: ''
+        commitMsg: '',
+        date: '',
       }
    });
     
@@ -14,7 +15,7 @@ $(document).ready(function() {
 
       tagName: 'li',
 
-      template: _.template("<li id="+"cards"+ " class='.col-md-4 animated zoomIn'"+"><a href='http://github.com/<%= user %>'><img id="+"profile"+" src=<%= imgUrl %>/></a><p id='name'><%= user %></p><p id="+"repo"+">Repo name: <%= repoName %><p id=msg>Commit Msg: <%= commitMsg %></p></li>"),
+      template: _.template("<li id="+"cards"+ " class='.col-md-4 animated zoomIn'"+"><a href='http://github.com/<%= user %>'><img id="+"profile"+" src=<%= imgUrl %>/></a><p id='name'><%= user %></p><p id='date'><%= date %></p><p id="+"repo"+">Repo name: <%= repoName %><p id=msg>Commit Msg: <%= commitMsg %></p></li>"),
       initialize: function(){
         this.render();
       },
@@ -44,7 +45,8 @@ $(document).ready(function() {
                     imgUrl: data.actor.avatar_url, 
                     user: data.actor.login, 
                     repoName: data.repo.name, 
-                    commitMsg: data.payload.commits[0].message
+                    commitMsg: data.payload.commits[0].message,
+                    date: new Date(data.created_at)
             }); 
                 var view = new ProfileView({model: gitapp});
             })

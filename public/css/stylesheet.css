@@ -22,6 +22,7 @@ body {
     font-weight: 100;
     font-family: 'Roboto Slab'; 
     margin-bottom: 0px;
+    font-size: 83px;
 }
 
 #search {
@@ -52,15 +53,17 @@ body {
 }
 
 #repo {
-    margin-left: 225px;
+    margin-left: 20px;
     margin-bottom: 0px;
-    margin-top: 50px; 
+    margin-top: 50px;
+    font-size: 20px; 
 }
 
 #msg {
-     margin-left: 250px;
+     margin-left: 20px;
      margin-bottom: 0px;
      margin-top: 10px;
+     font-size: 12px;
 }
 
 li {
@@ -79,6 +82,7 @@ li {
 
 li:hover { 
    box-shadow: 0px 0px 10px rgba(117, 211, 255, 1) ;
+   z-index:2;
 }
 
 #container {
@@ -88,3 +92,16 @@ li:hover {
     padding-left:50px;
     padding-right:50px;
 }
+
+#name {
+    margin-left: 160px;
+    margin-top: 20px;
+    font-size: 25px;
+}
+
+#date {
+    margin-left: 160px;
+    color: rgb(176, 175, 175);
+}
+
+
