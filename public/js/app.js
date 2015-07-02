@@ -15,7 +15,7 @@ $(document).ready(function() {
 
       tagName: 'li',
 
-      template: _.template("<li id="+"cards"+ " class='.col-md-4 animated zoomIn'"+"><a href='http://github.com/<%= user %>'><img id="+"profile"+" src=<%= imgUrl %>/></a><p id='name'><%= user %></p><p id='date'><%= date %></p><p id="+"repo"+">Repo name: <%= repoName %><p id=msg>Commit Msg: <%= commitMsg %></p></li>"),
+      template: _.template("<li id="+"cards"+ " class='.col-md-4 animated zoomIn'"+"><a href='http://github.com/<%= user %>'><img id="+"profile"+" src=<%= imgUrl %>/></a><p id='name'><%= user %></p><p id='date'><%= date %></p><p id="+"repo"+"><%= repoName %><p id=msg>Commit Msg: <%= commitMsg %></p></li>"),
       initialize: function(){
         this.render();
       },
@@ -37,18 +37,20 @@ $(document).ready(function() {
             $('#search').val('');
             $.ajax({
                 type: "GET",
-                url: '/git?name='+paramInfo,
+                url: '/geet?name='+paramInfo,
             })
             .done(function(data) {
                 console.log(data);
-                var gitapp = new app.Git({
-                    imgUrl: data.actor.avatar_url, 
-                    user: data.actor.login, 
-                    repoName: data.repo.name, 
-                    commitMsg: data.payload.commits[0].message,
-                    date: new Date(data.created_at)
-            }); 
-                var view = new ProfileView({model: gitapp});
+                for(var i in data) {
+                    var gitapp = new app.Git({
+                        imgUrl: data[i].actor.avatar_url, 
+                        user: data[i].actor.login, 
+                        repoName: data[i].repo.name, 
+                        commitMsg: data[i].payload.commits[0].message,
+                        date: new Date(data[i].created_at)
+                    }); 
+                    var view = new ProfileView({model: gitapp});
+                }
             })
             .fail(function() {
                 alert("ajax failed to fetch data");
