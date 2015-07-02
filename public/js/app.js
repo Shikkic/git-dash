@@ -15,7 +15,7 @@ $(document).ready(function() {
 
       tagName: 'li',
 
-      template: _.template("<li id="+"cards"+ " class='.col-md-4 animated zoomIn'"+"><a href='http://github.com/<%= user %>'><img id="+"profile"+" src=<%= imgUrl %>/></a><p id='name'><%= user %></p><p id='date'><%= date %></p><p id="+"repo"+"><%= repoName %><p id=msg>Commit Msg: <%= commitMsg %></p></li>"),
+      template: _.template("<li id="+"cards"+ " class='.col-md-4 truncate card-panel hoverable animated zoomIn'"+"><a href='http://github.com/<%= user %>'><img id="+"profile"+" src=<%= imgUrl %>/><p id='name'><%= user %></a></p><p id='date'><%= date %></p><a href='https://github.com/<%= repoName %>'><p id="+"repo"+"><%= repoName %></a><p id=msg>Commit Msg: <%= commitMsg %></p></li>"),
       initialize: function(){
         this.render();
       },
@@ -34,12 +34,14 @@ $(document).ready(function() {
         paramInfo = $('#search').val();
         var key = e.which;
         if(key == 13) {
+            $('#spinner').show();
             $('#search').val('');
             $.ajax({
                 type: "GET",
                 url: '/geet?name='+paramInfo,
             })
             .done(function(data) {
+                $('#spinner').hide();
                 console.log(data);
                 for(var i in data) {
                     var gitapp = new app.Git({

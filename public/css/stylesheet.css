@@ -50,14 +50,25 @@ body {
     max-width: 100px;
     max-height: 100px;
     box-shadow: 0px 0px 10px rgba(0,0,0,0.45);
+    border-radius: 0px;
 }
 
 #repo {
     margin-left: 20px;
     margin-bottom: 0px;
-    margin-top: 30px;
+    margin-top: 45px;
     font-size: 20px;
     color: #616161;
+}
+
+
+#repo a {
+    color: #616161;
+    text-decoration: none;
+}
+
+#repo a:hover {
+    color: #BDBDBD;
 }
 
 #msg {
@@ -98,8 +109,16 @@ li:hover {
 #name {
     margin-left: 140px;
     margin-top: 20px;
+}
+
+#name a {
     font-size: 25px;
-    color: #676767;
+    color: #616161;
+    text-decoration: none;
+}
+
+#name a:hover {
+    color: #BDBDBD;
 }
 
 #date {
@@ -126,9 +145,33 @@ li:hover {
 
 .plink {
     text-decoration: none;
-    color: #;
+    color: #616161;
+}
+
+.plink:hover {
+    text-decoration: none;
+    color: #9E9E9E;
+    cursor: pointer;
 }
 
 i {
     color: #B71C1C; 
+}
+
+i:hover {
+    color: #C62828;
+}
+
+.card-panel {
+    padding: 0px;
+    margin-left: 15px;
+    margin-bottom: 15px;
+
+}
+
+#img-spinner {
+    position: absolute;
+    left: 50%;
+    margin-top: 170px;
+    margin-left: -150px;
 }
