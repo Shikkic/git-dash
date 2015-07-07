@@ -15,13 +15,13 @@ $(document).ready(function() {
 
       tagName: 'li',
 
-      template: _.template("<li id="+"cards"+ " class='.col-md-4 truncate card-panel hoverable animated zoomIn'"+"><a href='http://github.com/<%= user %>'><img id="+"profile"+" src=<%= imgUrl %>/><p id='name'><%= user %></a></p><p id='date'><%= date %></p><a href='https://github.com/<%= repoName %>'><p id="+"repo"+"><%= repoName %></a><p id=msg>Commit Msg: <%= commitMsg %></p></li>"),
+      template: _.template("<li  class='col s4 truncate card-panel hoverable animated zoomIn git-cards'"+"><a href='http://github.com/<%= user %>'><img id="+"profile"+" src=<%= imgUrl %>/><p id='name'><%= user %></a></p><p id='date'><%= date %></p><a href='https://github.com/<%= repoName %>'><p id="+"repo"+"><%= repoName %></a><p id=msg>Commit Msg: <%= commitMsg %></p></li>"),
+      
       initialize: function(){
         this.render();
       },
 
       render: function(){
-        // render the function using substituting the varible 'who' for 'world!'.
         this.$el.append(this.template(this.model.toJSON()));
         return this;
       }
