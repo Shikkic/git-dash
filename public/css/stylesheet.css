@@ -6,6 +6,18 @@ body {
     font-weight:300; 
 }
 
+nav {
+    background-color: #EEEEEE; 
+}
+
+nav .brand-logo {
+    color: #26C6DA; 
+}
+
+nav ul a {
+    color: #26C6DA; 
+}
+
 #info {
     position: absolute;
     height: 100%;
@@ -25,6 +37,13 @@ body {
     font-size: 83px;
 }
 
+#title h3 {
+   font-size: 15px;
+   color: #26C6DA;
+   margin-bottom: 0px;
+   margin-top: 20px;
+}
+
 #search {
     position: absolute;
     height: 40px;
@@ -32,15 +51,21 @@ body {
     top: 5%;
     left: 50%;
     margin-left: -300px;
-
     font-size: 20px;
-    text-align: center;
     outline: none;
     font-family: 'Roboto Slab';
     font-weight: 100;
 }
 
-#profile {
+::-webkit-input-placeholder { text-align: center; }
+::-moz-placeholder { text-align: center; } /* firefox 19+ */
+:-ms-input-placeholder { text-align: center } /* ie */
+
+#serach:placeholder {
+    text-align: center;
+}
+
+.profile {
     list-style-type: none;
     border-style: hidden; 
     border-radius: 4px;
@@ -53,7 +78,7 @@ body {
     border-radius: 0px;
 }
 
-#repo {
+.repo {
     margin-left: 20px;
     margin-bottom: 0px;
     margin-top: 45px;
@@ -62,16 +87,16 @@ body {
 }
 
 
-#repo a {
+.repo a {
     color: #616161;
     text-decoration: none;
 }
 
-#repo a:hover {
+.repo a:hover {
     color: #BDBDBD;
 }
 
-#msg {
+.msg {
     margin-left: 20px;
     margin-bottom: 0px;
     margin-top: 10px;
@@ -85,7 +110,7 @@ body {
     width: 410px;
     height: 210px; 
     font-family: 'Roboto Slab';
-    overflow: auto;
+    overflow: hidden;
     border-radius: 4px;
     box-shadow: 0px 0px 10px rgba(0,0,0,0.45);
     margin-left: 5px;
@@ -107,22 +132,22 @@ li:hover {
     margin-top:125px;
 }
 
-#name {
+.name {
     margin-left: 140px;
     margin-top: 20px;
 }
 
-#name a {
+.name a {
     font-size: 25px;
     color: #616161;
     text-decoration: none;
 }
 
-#name a:hover {
+.name a:hover {
     color: #BDBDBD;
 }
 
-#date {
+.date {
     margin-left: 140px;
     color: rgb(176, 175, 175);
 }
@@ -176,3 +201,4 @@ i:hover {
     margin-top: 170px;
     margin-left: -150px;
 }
+
