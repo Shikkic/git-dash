@@ -5,7 +5,7 @@ $(document).ready(function() {
         repoName: '',
         commitMsg: '',
         date: '',
-        watch: 'none',
+        watch: 'N/A',
         watchUrl: ''
       }
    });
@@ -15,7 +15,7 @@ $(document).ready(function() {
 
       tagName: 'li',
 
-      template: _.template("<li  class='col s4 truncate card-panel hoverable animated zoomIn git-cards'"+"><a href='http://github.com/<%= user %>'><img class="+"profile"+" src=<%= imgUrl %>/><p class='name'><%= user %></a></p><p class='date'><%= date %></p><i class='fa fa-star star'></i><a href='<%= watchUrl  %>'><p class='watch'><%= watch %></p></a><a href='https://github.com/<%= repoName %>'><p class="+"repo"+"><%= repoName %></a><p class=msg>Commit Msg: <%= commitMsg %></p></li>"),
+      template: _.template("<li  class='col s4 truncate card-panel hoverable animated zoomIn git-cards'"+"><a href='http://github.com/<%= user %>'><img class="+"profile"+" src=<%= imgUrl %>/><p class='name'><%= user %></a></p><p class='date'><%= date %></p><i class='fa fa-star star'></i><a href='<%= watchUrl  %>'><p class='watch'><%= watch %></p></a><a href='https://github.com/<%= repoName %>'><p class='repo truncate'><%= repoName %></a><p class='msg truncate'>Commit Msg: <%= commitMsg %></p></li>"),
       
       initialize: function(){
         this.render();
