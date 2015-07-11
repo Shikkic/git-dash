@@ -8,7 +8,7 @@ $(document).ready(function() {
         commitMsg: '',
         date: '',
         watch: 'n/a',
-        watchUrl: ''
+        watchUrl: '',
       }
    });
     
@@ -30,9 +30,22 @@ $(document).ready(function() {
     }); 
 
     var ProfileCollection = Backbone.Collection.extend({
-        comparator: function(a) {
-            return a.get('date');
+        comparator: function(model) {
+            var date = new Date(model.get('dateString'));
+            return -date;
         }
+    });
+
+    var ProfileCollectionView = Backbone.View.extend({
+    
+    collection: null,
+
+    render: function() {
+    this.collection.forEach(function(item) {
+        var view = new ProfileView({model: item});
+    });
+    }
+
     });
 
     var profileCollection = new ProfileCollection();
@@ -62,7 +75,9 @@ $(document).ready(function() {
                             commitMsg: data[i].pushEvents.payload.commits[0].message,
                             commitSha: data[i].pushEvents.payload.commits[0].sha.slice(0,5),
                             commitUrl: 'http://github.com/'+data[i].pushEvents.repo.name+'/commit/'+data[i].pushEvents.payload.commits[0].sha,
-                            date: "Last pushed "+moment(data[i].pushEvents.created_at).fromNow()
+                            date: "Last pushed "+moment(data[i].pushEvents.created_at).fromNow(),
+                            
+                            dateString: data[i].pushEvents.created_at
                         });
                         if(data[i].watchEvents) {
                             gitCard.set({
@@ -70,12 +85,13 @@ $(document).ready(function() {
                                 watchUrl: 'http://www.github.com/'+data[i].watchEvents.repo.name 
                             });
                         }
-                        console.log(gitCard.watch);
                         profileCollection.add(gitCard);
-                        var view = new ProfileView({model: gitCard});
+                        //var view = new ProfileView({model: gitCard});
                     }
                 }
-                console.log(profileCollection);
+                profileCollection.sort();
+                var profileCollectionView = new ProfileCollectionView({collection: profileCollection});
+                profileCollectionView.render();
             })
             .fail(function() {
                 alert("ajax failed to fetch data");
