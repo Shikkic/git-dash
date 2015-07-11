@@ -1,11 +1,13 @@
+
+
 $(document).ready(function() {
-   GitCard = Backbone.Model.extend({
+   var GitCard = Backbone.Model.extend({
       defaults: {
         imgUrl: '',
         repoName: '',
         commitMsg: '',
         date: '',
-        watch: 'N/A',
+        watch: 'n/a',
         watchUrl: ''
       }
    });
@@ -14,15 +16,15 @@ $(document).ready(function() {
       el: $('#container'),
 
       tagName: 'li',
-
-      template: _.template("<li  class='col s4 truncate card-panel hoverable animated zoomIn git-cards'"+"><a href='http://github.com/<%= user %>'><img class="+"profile"+" src=<%= imgUrl %>/><p class='name'><%= user %></a></p><p class='date'><%= date %></p><i class='fa fa-star star'></i><a href='<%= watchUrl  %>'><p class='watch'><%= watch %></p></a><a href='https://github.com/<%= repoName %>'><p class='repo truncate'><%= repoName %></a><p class='msg truncate'>Commit Msg: <%= commitMsg %></p></li>"),
-      
+ 
+      template: "<li  class='col s4 truncate card-panel hoverable animated zoomIn git-cards'"+"><a target='_blank' href='http://github.com/{{user}}'><img class="+"profile"+" src={{imgUrl}}/><p class='name'>{{user}}</a></p><p class='date'>{{date}}</p><i class='fa fa-star star'></i><a target='_blank' href='{{watchUrl}}'><p class='watch'>{{#watch}}{{watch}}{{/watch}}</p></a><a target='_blank'  href='https://github.com/{{repoName}}'><p class='repo truncate'>{{repoName}}</a><a target='_blank' href='{{commitUrl}}'><p class='msg truncate'>{{commitSha}} {{commitMsg}}</p></a></li>",
+     
       initialize: function(){
         this.render();
       },
 
       render: function(){
-        this.$el.append(this.template(this.model.toJSON()));
+        this.$el.append((Mustache.render(this.template, this.model.toJSON())));
         return this;
       }
     }); 
@@ -58,6 +60,8 @@ $(document).ready(function() {
                             user: data[i].pushEvents.actor.login, 
                             repoName: data[i].pushEvents.repo.name, 
                             commitMsg: data[i].pushEvents.payload.commits[0].message,
+                            commitSha: data[i].pushEvents.payload.commits[0].sha.slice(0,5),
+                            commitUrl: 'http://github.com/'+data[i].pushEvents.repo.name+'/commit/'+data[i].pushEvents.payload.commits[0].sha,
                             date: "Last pushed "+moment(data[i].pushEvents.created_at).fromNow()
                         });
                         if(data[i].watchEvents) {
