@@ -236,9 +236,15 @@ i:hover {
     color: #616161;
 }
 
+.watch:hover {
+    color: #BDBDBD;
+}
+
 .star {
     margin-left: 140px;
     color:#FFC400;
 }
 
-
+.hidden {
+    visibility: hidden;
+}
