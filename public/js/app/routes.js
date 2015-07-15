@@ -1,11 +1,38 @@
-module.exports = function(app, request, async, ght) {
-
-    console.log(ght);
-
+module.exports = function(app, request, async, ght, passport) {
+    
+    ///////////////////////////////////////////
+    ///      Default landing page / login   ///
+    ///////////////////////////////////////////
     app.get('/', function(req, res) {
         res.sendfile('./public/index.html');
     });
- 
+
+    //////////////////////////////////////////
+    ///             LOGIN                  ///
+    //////////////////////////////////////////
+    app.get('/auth/github', passport.authenticate('github', {
+        successRedirect : '/app', // redirect to the secure profile section
+        failureRedirect : '/', // redirect back to the signup page if there is an error
+    }));
+
+    //////////////////////////////////////////
+    ///             LOGOUT                 ///
+    //////////////////////////////////////////
+    app.get('/logout', function(req, res) {
+        req.logout();
+        res.redirect('/');
+    });
+  
+    ///////////////////////////////////////////
+    ///               APP                   ///
+    ///////////////////////////////////////////    
+    app.get('/app', isLoggedIn, function(req, res) {
+        res.sendfile('./public/app.html');
+    });
+
+    /////////////////////////////////////
+    ///  Returns a single user's info ///
+    /////////////////////////////////////
     app.get('/git', function(req, res) {
         var name = req.query.name;
         var gitUrl = "https://api.github.com/users/"+ name +"/events?access_token="+ght;
@@ -14,8 +41,7 @@ module.exports = function(app, request, async, ght) {
             headers: {
                 'User-Agent': name
             }
-        };
-        
+        }; 
         request.get(options,  function(error, response, body){
             if(!error) {
                 var data = JSON.parse(body);
@@ -39,8 +65,11 @@ module.exports = function(app, request, async, ght) {
         });
     });
 
-
+    ///////////////////////////////////////
+    /// Returns info of users following ///
+    ///////////////////////////////////////
     app.get('/geet', function(req, res) {
+        console.log("MADE IT TO GEET");
         var name = req.query.name;
         var gitUrl = 'https://api.github.com/users/'+ name +"/following?access_token="+ght;
         console.log("GitURL "+gitUrl);
@@ -50,7 +79,6 @@ module.exports = function(app, request, async, ght) {
                 'User-Agent': name
             }
         };
-        
         request.get(options, function(error, response, body) {
             if(!error) {
                 var data = JSON.parse(body);
@@ -84,6 +112,13 @@ module.exports = function(app, request, async, ght) {
             }
         });
     });
+
+    function isLoggedIn(req, res, next) {
+        if (req.isAuthenticated()) {
+            return next();
+        }
+        res.redirect('/');
+    };
 
     function findPush(data) {
         var count = 0;
