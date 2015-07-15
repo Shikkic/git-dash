@@ -37,7 +37,7 @@ module.exports = function(passport) {
         clientSecret: GITHUB_CLIENT_SECRET,
         callbackURL: "http://www.gitdash.me/auth/github/callback"
       },
-      function(accessToken, refreshToken, profile, done) {
+      function(token, refreshToken, profile, done) {
         User.findOne({ githubId: profile.id }, function (err, user) {
         if (err) {
             return done(err);
