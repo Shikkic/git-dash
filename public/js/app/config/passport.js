@@ -35,7 +35,7 @@ module.exports = function(passport) {
     passport.use(new GithubStrategy({
         clientID: GITHUB_CLIENT_ID,
         clientSecret: GITHUB_CLIENT_SECRET,
-        callbackURL: "http://gitdash.me/auth/github/callback"
+        callbackURL: "http://www.gitdash.me/auth/github/callback"
       },
       function(accessToken, refreshToken, profile, done) {
         User.findOrCreate({ githubId: profile.id }, function (err, user) {
