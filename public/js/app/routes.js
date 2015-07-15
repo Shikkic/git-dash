@@ -19,7 +19,7 @@ module.exports = function(app, request, async, ght, passport) {
     ///             CALL BACK             ///
     /////////////////////////////////////////
 
-    app.get('/auth/github/callback', passport.authenticate('facebook', {
+    app.get('/auth/github/callback', passport.authenticate('github', {
         successRedirect : '/app',
         failureRedirect : '/'
     }));
