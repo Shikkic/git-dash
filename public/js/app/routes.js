@@ -10,7 +10,7 @@ module.exports = function(app, request, async, ght, passport) {
     //////////////////////////////////////////
     ///             LOGIN                  ///
     //////////////////////////////////////////
-    app.get('/auth/github', passport.authenticate('github'));
+    app.get('/auth/github', passport.authenticate('github', { scope: ['user:email']}));
 
     /////////////////////////////////////////
     ///             CALL BACK             ///
