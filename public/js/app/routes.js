@@ -4,7 +4,7 @@ module.exports = function(app, request, async, ght, passport) {
     ///      Default landing page / login   ///
     ///////////////////////////////////////////
     app.get('/', isLoggedIn, function(req, res) {
-        res.redirect('/app');
+        res.sendfile('./public/app.html');
     });
 
     //////////////////////////////////////////
@@ -34,8 +34,8 @@ module.exports = function(app, request, async, ght, passport) {
     ///////////////////////////////////////////
     ///               APP                   ///
     ///////////////////////////////////////////    
-    app.get('/app', isLoggedIn, function(req, res) {
-        res.sendfile('./public/app.html');
+    app.get('/login',  function(req, res) {
+        res.sendfile('./public/index.html');
     });
 
     /////////////////////////////////////
@@ -125,7 +125,7 @@ module.exports = function(app, request, async, ght, passport) {
         if (req.isAuthenticated()) {
             return next();
         }
-        res.redirect('/index.html');
+        res.redirect('/login');
     };
 
     function findPush(data) {
