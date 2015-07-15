@@ -55,7 +55,7 @@ module.exports = function(passport) {
             newUser.github.name  = profile.name; 
             newUser.github.email = profile.email;
             newUser.github.url = profile.url;
-            newUsers.github.following = profile.following;
+            newUser.github.following = profile.following;
 
             // save our user to the database
             newUser.save(function(err) {
