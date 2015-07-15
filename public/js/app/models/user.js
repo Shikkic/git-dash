@@ -4,8 +4,10 @@ var userSchema = mongoose.Schema({
     github : {
         id : String,
         token : String,
+        name: String,
         email : String,
-        name : String
+        url : String,
+        following : String
     }
 });
 
