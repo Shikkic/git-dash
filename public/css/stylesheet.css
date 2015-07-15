@@ -9,6 +9,7 @@ body {
 #title h1 {
     font-weight: 300;  
     letter-spacing: 7px;
+    text-align: center;
 }
 
 nav {
@@ -40,6 +41,7 @@ nav ul a {
     font-family: 'Roboto Slab'; 
     margin-bottom: 0px;
     font-size: 83px;
+    margin-top:30px;
 }
 
 #title h3 {
@@ -49,6 +51,7 @@ nav ul a {
    margin-bottom: 0px;
    margin-top: 20px;
    letter-spacing: 1px;
+   text-align: center;
 }
 
 #search {
@@ -247,4 +250,10 @@ i:hover {
 
 .hidden {
     visibility: hidden;
+}
+
+#login-button {
+    left: 50%;
+    margin-left: -130px;
+    margin-top: 50px;
 }
