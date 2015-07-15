@@ -15,6 +15,15 @@ module.exports = function(app, request, async, ght, passport) {
         failureRedirect : '/', // redirect back to the signup page if there is an error
     }));
 
+    /////////////////////////////////////////
+    ///             CALL BACK             ///
+    /////////////////////////////////////////
+
+    app.get('/auth/github/callback', passport.authenticate('facebook', {
+        successRedirect : '/app',
+        failureRedirect : '/'
+    }));
+
     //////////////////////////////////////////
     ///             LOGOUT                 ///
     //////////////////////////////////////////
