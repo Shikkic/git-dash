@@ -10,10 +10,7 @@ module.exports = function(app, request, async, ght, passport) {
     //////////////////////////////////////////
     ///             LOGIN                  ///
     //////////////////////////////////////////
-    app.get('/auth/github', passport.authenticate('github', {
-        successRedirect : '/app', // redirect to the secure profile section
-        failureRedirect : '/', // redirect back to the signup page if there is an error
-    }));
+    app.get('/auth/github', passport.authenticate('github'));
 
     /////////////////////////////////////////
     ///             CALL BACK             ///
