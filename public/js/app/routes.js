@@ -3,8 +3,8 @@ module.exports = function(app, request, async, ght, passport) {
     ///////////////////////////////////////////
     ///      Default landing page / login   ///
     ///////////////////////////////////////////
-    app.get('/', function(req, res) {
-        res.sendfile('./public/index.html');
+    app.get('/', isLoggedIn, function(req, res) {
+        res.redirect('/app');
     });
 
     //////////////////////////////////////////
@@ -125,7 +125,7 @@ module.exports = function(app, request, async, ght, passport) {
         if (req.isAuthenticated()) {
             return next();
         }
-        res.redirect('/');
+        res.redirect('/index.html');
     };
 
     function findPush(data) {
