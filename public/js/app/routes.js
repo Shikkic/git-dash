@@ -79,7 +79,7 @@ module.exports = function(app, request, async, ght, passport) {
     app.get('/geet', function(req, res) {
         console.log("MADE IT TO GEET");
         //var name = req.query.name;
-        var name = req.user.name;
+        var name = req.user.username;
         console.log('NAME: '+name);
         var userToken = req.user.token;
         var gitUrl = 'https://api.github.com/users/'+ name +"/following?access_token="+userToken;
