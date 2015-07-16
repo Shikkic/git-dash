@@ -53,15 +53,15 @@ $(document).ready(function() {
     var paramInfo = '';
     var objData = '';
 
-    $('#search').keypress(function(e) {
-        paramInfo = $('#search').val();
-        var key = e.which;
-        if(key == 13) {
+    //$('#search').keypress(function(e) {
+        //paramInfo = $('#search').val();
+        //var key = e.which;
+        //if(key == 13) {
             $('#spinner').show();
             $('#search').val('');
             $.ajax({
                 type: "GET",
-                url: '/geet?name='+paramInfo,
+                url: '/geet,
             })
             .done(function(data) {
                 $('#spinner').hide();
@@ -96,7 +96,7 @@ $(document).ready(function() {
             .fail(function() {
                 alert("ajax failed to fetch data");
             });
-        }
+        //}
     });
 
 });
