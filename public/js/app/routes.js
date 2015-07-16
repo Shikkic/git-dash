@@ -35,7 +35,7 @@ module.exports = function(app, request, async, ght, passport) {
     ///               APP                   ///
     ///////////////////////////////////////////    
     app.get('/login',  function(req, res) {
-        res.sendfile('./public/index.html');
+        res.sendfile('./public/login.html');
     });
 
     /////////////////////////////////////
