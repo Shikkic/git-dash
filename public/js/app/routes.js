@@ -76,13 +76,13 @@ module.exports = function(app, request, async, ght, passport) {
     ///////////////////////////////////////
     /// Returns info of users following ///
     ///////////////////////////////////////
-    app.get('/geet', function(req, res) {
+    app.get('/geet', isLoggedIn, function(req, res) {
         console.log("MADE IT TO GEET");
         //var name = req.query.name;
-        var name = req.user.username;
+        var name = req.user.github.username;
         console.log('NAME: '+name);
-        var userToken = req.user.token;
-        var gitUrl = 'https://api.github.com/users/'+ name +"/following?access_token="+userToken;
+        var userToken = req.user.github.token; 
+	var gitUrl = 'https://api.github.com/users/'+ name +"/following?access_token="+userToken;
         console.log("GitURL "+gitUrl);
         var options = {
             url: gitUrl,
