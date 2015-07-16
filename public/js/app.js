@@ -37,66 +37,66 @@ $(document).ready(function() {
     });
 
     var ProfileCollectionView = Backbone.View.extend({
-    
-    collection: null,
-
-    render: function() {
-    this.collection.forEach(function(item) {
-        var view = new ProfileView({model: item});
-    });
-    }
-
+        collection: null,
+        render: function() {
+            this.collection.forEach(function(item) {
+                var view = new ProfileView({model: item});
+            });
+        }
     });
 
     var profileCollection = new ProfileCollection();
 
-    var paramInfo = '';
     var objData = '';
 
     //$('#search').keypress(function(e) {
         //paramInfo = $('#search').val();
         //var key = e.which;
         //if(key == 13) {
-            $('#spinner').show();
-            $('#search').val('');
-            $.ajax({
-                type: "GET",
-                url: '/geet,
-            })
-            .done(function(data) {
-                $('#spinner').hide();
-                console.log(data);
-                for(var i in data) {
-                    if(data[i].pushEvents ) {
-                        var gitCard = new GitCard({
-                            imgUrl: data[i].pushEvents.actor.avatar_url, 
-                            user: data[i].pushEvents.actor.login, 
-                            repoName: data[i].pushEvents.repo.name, 
-                            commitMsg: data[i].pushEvents.payload.commits[0].message,
-                            commitSha: data[i].pushEvents.payload.commits[0].sha.slice(0,5),
-                            commitUrl: 'http://github.com/'+data[i].pushEvents.repo.name+'/commit/'+data[i].pushEvents.payload.commits[0].sha,
-                            date: "Last pushed "+moment(data[i].pushEvents.created_at).fromNow(),
-                            
-                            dateString: data[i].pushEvents.created_at
-                        });
-                        if(data[i].watchEvents) {
-                            gitCard.set({
-                                watch: data[i].watchEvents.repo.name,
-                                watchUrl: 'http://www.github.com/'+data[i].watchEvents.repo.name 
-                            });
-                        }
-                        profileCollection.add(gitCard);
-                        //var view = new ProfileView({model: gitCard});
-                    }
+    $('#spinner').show();
+    $('#search').val('');
+    $.ajax({
+        type: "GET",
+        url: '/geet',
+    })
+    .done(function(data) {
+        $('#spinner').hide();
+        console.log(data);
+        for(var i in data) {
+            if(data[i].pushEvents ) {
+                var gitCard = new GitCard({
+                    imgUrl: data[i].pushEvents.actor.avatar_url, 
+                    user: data[i].pushEvents.actor.login, 
+                    repoName: data[i].pushEvents.repo.name, 
+                    commitMsg: data[i].pushEvents.payload.commits[0].message,
+                    commitSha: data[i].pushEvents.payload.commits[0].sha.slice(0,5),
+                    commitUrl: 'http://github.com/'+data[i].pushEvents.repo.name+'/commit/'+data[i].pushEvents.payload.commits[0].sha,
+                    date: "Last pushed "+moment(data[i].pushEvents.created_at).fromNow(),
+                    
+                    dateString: data[i].pushEvents.created_at
+                });
+                if(data[i].watchEvents) {
+                    gitCard.set({
+                        watch: data[i].watchEvents.repo.name,
+                        watchUrl: 'http://www.github.com/'+data[i].watchEvents.repo.name 
+                    });
                 }
-                profileCollection.sort();
-                var profileCollectionView = new ProfileCollectionView({collection: profileCollection});
-                profileCollectionView.render();
-            })
-            .fail(function() {
-                alert("ajax failed to fetch data");
-            });
-        //}
+                profileCollection.add(gitCard);
+                //var view = new ProfileView({model: gitCard});
+            }
+        }
+        if(profileCollection.length) {
+            profileCollection.sort();
+            var profileCollectionView = new ProfileCollectionView({collection: profileCollection});
+            profileCollectionView.render();
+        } else {
+            alert("NO FRIENDS GO HOME");
+        }
+    })
+    .fail(function() {
+        alert("ajax failed to fetch data");
     });
+        //}
+    //});
 
 });
