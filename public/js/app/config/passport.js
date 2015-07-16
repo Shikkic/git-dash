@@ -52,10 +52,9 @@ module.exports = function(passport) {
             // set all of the facebook information in our user model
             newUser.github.id    = profile.id; // set the users facebook id                   
             newUser.github.token = token; // we will save the token that facebook provides to the user                    
-            newUser.github.name  = profile.name; 
-            newUser.github.email = profile.email;
-            newUser.github.url = profile.url;
-            newUser.github.following = profile.following;
+            newUser.github.name  = profile.displayName; 
+            newUser.github.username = profile.username;
+            newUser.github.url = profile.profileUrl;
             console.log("CREATED NEW USER "+newUser);
             // save our user to the database
             newUser.save(function(err) {
