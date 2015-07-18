@@ -50,26 +50,8 @@ module.exports = function(app, request, async, ght, passport) {
                 'User-Agent': name
             }
         }; 
-        request.get(options,  function(error, response, body){
-            if(!error) {
-                var data = JSON.parse(body);
-                console.log("made it");
-                var count = 0;
-                var found = false;
-
-                while(found != true && count < data.length) {
-                    console.log(data[count].type);
-                    if(data[count].type == "PushEvent") {
-                        found = true;
-                        break;
-                    }
-                    count++;
-                }
-                
-                res.send(data[count]);
-            }
-            console.log(response);
-            //console.log(data[count]);
+        getRequest(gitUrl, options, 1, function(gitObj) {
+            res.send(gitObj);
         });
     });
 
@@ -77,30 +59,13 @@ module.exports = function(app, request, async, ght, passport) {
     /// Returns info of users following ///
     ///////////////////////////////////////
     app.get('/geet', isLoggedIn, function(req, res) {
-        console.log("MADE IT TO GEET");
-        //var name = req.query.name;
         var name = req.user.github.username;
-        console.log('NAME: '+name);
-        var userToken = req.user.github.token; 
-	var gitUrl = 'https://api.github.com/users/'+ name +"/following?access_token="+userToken;
-        console.log("GitURL "+gitUrl);
-        var options = {
-            url: gitUrl,
-            headers: {
-                'User-Agent': name
-            }
-        };
-        request.get(options, function(error, response, body) {
-            if(!error) {
-                var data = JSON.parse(body);
-                var names = [];
-                for (i in data) {
-                    names.push(data[i].login);
-                }
-                // To loop through array of names
-                var count = 0;
+        var userToken = req.user.github.token;
+        getFriendsList(name, userToken, function(names) {
+                console.log(names);
+                var count = 0; 
                 async.times(names.length, function(_, next) {
-                    var gitUrl = 'https://api.github.com/users/'+names[count]+'/events?access_token='+ght;
+                    var gitUrl = 'https://api.github.com/users/'+names[count]+'/events?access_token='+userToken;
                     var options = {
                         url: gitUrl,
                         headers: {
@@ -120,9 +85,62 @@ module.exports = function(app, request, async, ght, passport) {
                 }, function(err, results) {
                     res.send(results);
                 });
-            }
         });
     });
+    
+    function getFriendsList(name, userToken, callback) {
+        var page = 1;
+        var done = false;
+        var names = [];
+        async.whilst(
+            function () { return done === false },
+            function (next) {
+                var gitUrl = 'https://api.github.com/users/'+ name +"/following?access_token="+userToken+'&page='+page;
+                var options = {
+                    url: gitUrl,
+                    headers: {
+                        'User-Agent': name
+                    }
+                };
+                request.get(options, function(error, response, body) {
+                    var data = JSON.parse(body);
+                    for (i in data) {
+                        names.push(data[i].login);
+                    }
+                    if (data.length > 0) {
+                        console.log("Data is NOT empty");
+                        page++;
+                        
+                    } else {
+                        done = true;
+                    }
+                        return next(error, ({friends: names}));
+                });
+            },
+            function (err) {
+                callback(names);
+            }); 
+    };
+
+    function getRequest(url, options, page, callback) {
+        request.get(options,  function(error, response, body){
+            if(!error) {
+                var data = JSON.parse(body);
+                var count = 0;
+                var found = false;
+                while(found != true && count < data.length) {
+                    console.log(data[count].type);
+                    if(data[count].type == "PushEvent") {
+                        found = true;
+                        break;
+                    }
+                    count++;
+                }
+                callback(data[count]); 
+            }
+            return Error;
+        });
+    };
 
     function isLoggedIn(req, res, next) {
         if (req.isAuthenticated()) {
