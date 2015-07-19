@@ -32,7 +32,7 @@ module.exports = function(passport) {
     passport.use(new GithubStrategy({
         clientID: GITHUB_CLIENT_ID,
         clientSecret: GITHUB_CLIENT_SECRET,
-        callbackURL: "http://127.0.0.1:3000/auth/github/callback"
+        callbackURL: "http://www.gitdash.me/auth/github/callback"
       },
       function(token, refreshToken, profile, done) {
         User.findOne({ githubId: profile.id }, function (err, user) {
@@ -52,7 +52,6 @@ module.exports = function(passport) {
             newUser.github.name  = profile.displayName; 
             newUser.github.username = profile.username;
             newUser.github.url = profile.profileUrl;
-            console.log("CREATED NEW USER "+newUser);
             // save our user to the database
             newUser.save(function(err) {
                 if (err)
