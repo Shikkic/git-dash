@@ -1,7 +1,6 @@
-
-
 $(document).ready(function() {
-   var GitCard = Backbone.Model.extend({
+   
+    var GitCard = Backbone.Model.extend({
       defaults: {
         imgUrl: '',
         repoName: '',
@@ -17,7 +16,7 @@ $(document).ready(function() {
 
       tagName: 'li',
  
-      template: "<li  class='col s4 truncate card-panel hoverable animated zoomIn git-cards'"+"><a target='_blank' href='http://github.com/{{user}}'><img class="+"profile"+" src={{imgUrl}}/><p class='name'>{{user}}</a></p><p class='date'>{{date}}</p><i class='fa fa-star star {{#watch}}{{/watch}}{{^watch}}hidden{{/watch}}'></i><a target='_blank' href='{{watchUrl}}'><p class='watch {{#watch}}{{/watch}}{{^watch}}hidden{{/watch}}'>{{#watch}}{{watch}}{{/watch}}</p></a><a target='_blank'  href='https://github.com/{{repoName}}'><p class='repo truncate'>{{repoName}}</a><a target='_blank' href='{{commitUrl}}'><p class='msg truncate'>{{commitSha}} {{commitMsg}}</p></a></li>",
+      template: "<li id='{{userID}}'class='col s4 truncate card-panel hoverable animated zoomIn git-cards'"+"><a target='_blank' href='http://github.com/{{user}}'><img class="+"profile"+" src={{imgUrl}}/><p class='name'>{{user}}</a></p><p class='date'>{{date}}</p><i class='fa fa-star star {{#watch}}{{/watch}}{{^watch}}hidden{{/watch}}'></i><a target='_blank' href='{{watchUrl}}'><p class='watch {{#watch}}{{/watch}}{{^watch}}hidden{{/watch}}'>{{#watch}}{{watch}}{{/watch}}</p></a><a target='_blank'  href='https://github.com/{{repoName}}'><p class='repo truncate'>{{repoName}}</a><a target='_blank' href='{{commitUrl}}'><p class='msg truncate'>{{commitSha}} {{commitMsg}}</p></a></li>",
      
       initialize: function(){
         this.render();
@@ -26,9 +25,23 @@ $(document).ready(function() {
       render: function(){
         this.$el.append((Mustache.render(this.template, this.model.toJSON())));
         return this;
+      },
+
+      hide: function() {
+        this.$el.hide();
+      },
+
+      show: function() {
+        this.$el.show();
       }
     }); 
 
+    var InputModel = Backbone.Model.extend({
+        initialize: function() {
+            console.log(this);
+        }    
+    });
+    
     var ProfileCollection = Backbone.Collection.extend({
         comparator: function(model) {
             var date = new Date(model.get('dateString'));
@@ -38,34 +51,67 @@ $(document).ready(function() {
 
     var ProfileCollectionView = Backbone.View.extend({
         collection: null,
+
+        viewCollection: null,
+
+        el: 'body',
+
+        bindings: {
+            '#search': 'inputVal'
+        },
+
+        initialize: function() {
+            this.model = new InputModel({});
+            this.listenTo(this.model, {
+                'change:inputVal':this.updateText
+            });
+            this.inputVal = $("#search").val(); 
+            this.stickit();
+        },
+
+        updateText: function(e) {
+            console.log("updatedText");
+            this.inputVal = $("#search").val();
+            this.filter();
+        },
+
         render: function() {
+            var viewCollection = [];
             this.collection.forEach(function(item) {
                 var view = new ProfileView({model: item});
+                viewCollection.push(view);
+            });
+            this.viewCollection = viewCollection;
+        },
+
+        filter: function() {
+            var inputValue = this.inputVal.toLowerCase();
+            this.viewCollection.forEach(function(item) {
+                var username = item.model.attributes.user.toLowerCase();
+                if(username.indexOf(inputValue) > -1 || username.length === 0) {
+                    $("#"+username).show();
+                } else { 
+                    $("#"+username).hide();
+                } 
             });
         }
+        
     });
 
     var profileCollection = new ProfileCollection();
 
-    var objData = '';
-
-    //$('#search').keypress(function(e) {
-        //paramInfo = $('#search').val();
-        //var key = e.which;
-        //if(key == 13) {
     $('#spinner').show();
-    $('#search').val('');
     $.ajax({
         type: "GET",
         url: '/geet',
     })
     .done(function(data) {
-        console.log(data);
         for(var i in data) {
             if(data[i].pushEvents ) {
                 var gitCard = new GitCard({
                     imgUrl: data[i].pushEvents.actor.avatar_url, 
                     user: data[i].pushEvents.actor.login, 
+                    userID: data[i].pushEvents.actor.login.toLowerCase(),
                     repoName: data[i].pushEvents.repo.name, 
                     commitMsg: data[i].pushEvents.payload.commits[0].message,
                     commitSha: data[i].pushEvents.payload.commits[0].sha.slice(0,5),
@@ -84,7 +130,8 @@ $(document).ready(function() {
             }
         }
         if(profileCollection.length) {
-        $('#spinner').hide();
+            // User has friends, initial render
+            $('#spinner').hide();
             profileCollection.sort();
             var profileCollectionView = new ProfileCollectionView({collection: profileCollection});
             profileCollectionView.render();
@@ -98,6 +145,7 @@ $(document).ready(function() {
         }
     })
     .fail(function() {
+        // 404 error
         $("#img-spinner").attr("src", "../assets/404.gif");
         $("#info").append("<span id='fourOfour'>404 Opps! Something went wrong... </span>");
     });
