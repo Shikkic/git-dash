@@ -1,10 +1,10 @@
-module.exports = function(app, request, async, ght, passport) {
+module.exports = function(app, request, async, passport) {
     
     ///////////////////////////////////////////
     ///      Default landing page / login   ///
     ///////////////////////////////////////////
     app.get('/', isLoggedIn, function(req, res) {
-        res.sendfile('./public/app.html');
+        res.sendfile('./public/pages/app.html');
     });
 
     //////////////////////////////////////////
@@ -22,7 +22,6 @@ module.exports = function(app, request, async, ght, passport) {
             res.redirect('/');  
     });
     
-
     //////////////////////////////////////////
     ///             LOGOUT                 ///
     //////////////////////////////////////////
@@ -35,7 +34,7 @@ module.exports = function(app, request, async, ght, passport) {
     ///               APP                   ///
     ///////////////////////////////////////////    
     app.get('/login',  function(req, res) {
-        res.sendfile('./public/login.html');
+        res.sendfile('./public/pages/login.html');
     });
 
     /////////////////////////////////////
@@ -62,7 +61,6 @@ module.exports = function(app, request, async, ght, passport) {
         var name = req.user.github.username;
         var userToken = req.user.github.token;
         getFriendsList(name, userToken, function(names) {
-                console.log(names);
                 var count = 0; 
                 async.times(names.length, function(_, next) {
                     var gitUrl = 'https://api.github.com/users/'+names[count]+'/events?access_token='+userToken;

@@ -60,7 +60,6 @@ $(document).ready(function() {
         url: '/geet',
     })
     .done(function(data) {
-        $('#spinner').hide();
         console.log(data);
         for(var i in data) {
             if(data[i].pushEvents ) {
@@ -71,8 +70,7 @@ $(document).ready(function() {
                     commitMsg: data[i].pushEvents.payload.commits[0].message,
                     commitSha: data[i].pushEvents.payload.commits[0].sha.slice(0,5),
                     commitUrl: 'http://github.com/'+data[i].pushEvents.repo.name+'/commit/'+data[i].pushEvents.payload.commits[0].sha,
-                    date: "Last pushed "+moment(data[i].pushEvents.created_at).fromNow(),
-                    
+                    date: "Last pushed "+moment(data[i].pushEvents.created_at).fromNow(),                 
                     dateString: data[i].pushEvents.created_at
                 });
                 if(data[i].watchEvents) {
@@ -86,17 +84,22 @@ $(document).ready(function() {
             }
         }
         if(profileCollection.length) {
+        $('#spinner').hide();
             profileCollection.sort();
             var profileCollectionView = new ProfileCollectionView({collection: profileCollection});
             profileCollectionView.render();
         } else {
-            alert("NO FRIENDS GO HOME");
+            // User has no Friends, display message
+            $("#spinner").hide();
+            $("#img-spinner").attr("src", "../assets/help.gif"); 
+            $("#img-spinner").attr("id", "no-friends");
+            $("#info").append("<span id='no-friends-text'>Looks like you don't have any friends on <a href='http://www.github.com'>Github</a>, try adding some and come back! <3</span");
+            $("#spinner").show();
         }
     })
     .fail(function() {
-        alert("ajax failed to fetch data");
+        $("#img-spinner").attr("src", "../assets/404.gif");
+        $("#info").append("<span id='fourOfour'>404 Opps! Something went wrong... </span>");
     });
-        //}
-    //});
 
 });

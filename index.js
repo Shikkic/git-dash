@@ -4,18 +4,16 @@ var request = require('request');
 var async = require('async');
 var passport = require('passport');
 var mongoose = require('mongoose');
-var ght = process.env.GITHUB_API_TOKEN;
-console.log(ght);
 var morgan = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
 
-var configDB = require('./public/js/app/config/database.js');
+var configDB = require('./app/config/database.js');
 
 mongoose.connect(configDB.url); // connect to our database
 
-require('./public/js/app/config/passport.js')(passport);
+require('./app/config/passport.js')(passport);
 
 //Middleware
 app.set('port', (process.env.PORT || 3000));
@@ -38,7 +36,7 @@ app.use(passport.session());
 //              ROUTES              //
 //////////////////////////////////////
 */
-require('./public/js/app/routes.js')(app, request, async, ght, passport);
+require('./app/routes.js')(app, request, async, passport);
 
 app.listen(app.get('port'), function() {
     console.log("listening on port: " + app.get('port'));

@@ -8,9 +8,6 @@ var User = require('../models/user');
 var GITHUB_CLIENT_ID = process.env.GITHUB_CLIENT_ID; 
 var GITHUB_CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET;
 
-console.log(GITHUB_CLIENT_ID);
-console.log(GITHUB_CLIENT_SECRET);
-
 // expose this function to our app using module.exports
 module.exports = function(passport) {
 

@@ -257,3 +257,34 @@ i:hover {
     margin-left: -130px;
     margin-top: 50px;
 }
+
+#no-friends {
+    margin-left: -234px;
+    position: absolute;
+    left: 50%;
+    margin-top: 170px;
+}
+
+#no-friends-text {
+    display: block;
+    text-align: center;
+    color: #ff8cc6;
+    font-size: 16px;
+    margin-top: 345px;
+}
+
+#no-friends-text a {
+    color: #26C6DA;
+}
+
+#no-friends-text a:hover {
+    color: #8DDEE8;
+}
+
+#fourOfour {
+    display: block;
+    text-align: center;
+    margin-top: 430px;
+    font-size: 28px;
+    color: #B71C1C;
+}
