@@ -7,7 +7,7 @@ The goal was to make it easier to stay relevant with peoples interests and proje
 
 **Note**: Github uses the [Github API](https://developer.github.com/v3/), a [developer account and app application](https://developer.github.com/program/) are required
 
-[Fork this repo](http://www.github.com/git-dash/fork) this repo, cloneit and then run:
+[Fork this repo](http://www.github.com/git-dash/fork), clone it and then run:
 
 ```
 npm install
