@@ -1,5 +1,4 @@
-$(document).ready(function() {
-   
+$(document).ready(function() { 
     var GitCard = Backbone.Model.extend({
       defaults: {
         imgUrl: '',
@@ -14,17 +13,31 @@ $(document).ready(function() {
     var ProfileView = Backbone.View.extend({
       el: $('#container'),
 
-      tagName: 'li',
- 
-      template: "<li id='{{userID}}'class='col s4 truncate card-panel hoverable animated zoomIn git-cards'"+"><a target='_blank' href='http://github.com/{{user}}'><img class="+"profile"+" src={{imgUrl}}/><p class='name'>{{user}}</a></p><p class='date'>{{date}}</p><i class='fa fa-star star {{#watch}}{{/watch}}{{^watch}}hidden{{/watch}}'></i><a target='_blank' href='{{watchUrl}}'><p class='watch {{#watch}}{{/watch}}{{^watch}}hidden{{/watch}}'>{{#watch}}{{watch}}{{/watch}}</p></a><a target='_blank'  href='https://github.com/{{repoName}}'><p class='repo truncate'>{{repoName}}</a><a target='_blank' href='{{commitUrl}}'><p class='msg truncate'>{{commitSha}} {{commitMsg}}</p></a></li>",
-     
-      initialize: function(){
-        this.render();
+      events: {
+        'click' : 'transform',
+        //'dblclick' : 'normal'
       },
 
-      render: function(){
-        this.$el.append((Mustache.render(this.template, this.model.toJSON())));
+      tagName: 'li',
+ 
+      baseCard: "<li id='{{userID}}'class='col s4 truncate card-panel hoverable animated zoomIn git-cards'"+"><a target='_blank' href='http://github.com/{{user}}'><img class="+"profile"+" src={{imgUrl}}/><p class='name'>{{user}}</a></p><p class='date'>{{date}}</p><i class='fa fa-star star {{#watch}}{{/watch}}{{^watch}}hidden{{/watch}}'></i><a target='_blank' href='{{watchUrl}}'><p class='watch {{#watch}}{{/watch}}{{^watch}}hidden{{/watch}}'>{{#watch}}{{watch}}{{/watch}}</p></a><a target='_blank'  href='https://github.com/{{repoName}}'><p class='repo truncate'>{{repoName}}</a><a target='_blank' href='{{commitUrl}}'><p class='msg truncate'>{{commitSha}} {{commitMsg}}</p></a></li>",
+    
+      smallCardTemplate: "<a target='_blank' href='http://github.com/{{user}}'><img class="+"profile"+" src={{imgUrl}}/><p class='name'>{{user}}</a></p><p class='date'>{{date}}</p><i class='fa fa-star star {{#watch}}{{/watch}}{{^watch}}hidden{{/watch}}'></i><a target='_blank' href='{{watchUrl}}'><p class='watch {{#watch}}{{/watch}}{{^watch}}hidden{{/watch}}'>{{#watch}}{{watch}}{{/watch}}</p></a><a target='_blank'  href='https://github.com/{{repoName}}'><p class='repo truncate'>{{repoName}}</a><a target='_blank' href='{{commitUrl}}'><p class='msg truncate'>{{commitSha}} {{commitMsg}}</p></a>",
+
+      largeCardTemplate: "",
+
+      initialize: function(){
+        this.render();
+        this.setElement('#'+this.model.get('userID'));
+      },
+
+      render: function() {
+        this.$el.append((Mustache.render(this.baseCard, this.model.toJSON())));
         return this;
+      },
+
+      smallCardRender: function() {
+        this.$el.html((Mustache.render(this.smallCardTemplate, this.model.toJSON())));
       },
 
       hide: function() {
@@ -33,6 +46,42 @@ $(document).ready(function() {
 
       show: function() {
         this.$el.show();
+      },
+
+      transform: function() {
+        //this.$el.empty()
+        //this.smallCardRender();
+        this.$el.css("position", "absolute");
+        this.$el.height("600px");
+        this.$el.width("600px");
+        /*this.$el.animate({
+            height: '500px',
+            width: '600px'
+        }, 500);*/
+        this.$el.css("left", "50%");
+        this.$el.css("margin-left", "-300px");
+        this.$el.addClass("z-depth-5");
+        this.$el.removeClass("hoverable");
+        this.$el.css("z-index", "2");
+      },
+
+      normal: function() {
+        //$('#'+this.model.get('userID')).hide(); 
+        this.smallCardRender();
+        this.hide();
+        console.log(this.$el);
+        $('#'+this.model.get('userID')).height('210px');
+        $('#'+this.model.get('userID')).width('410px');
+        this.$el.css({
+            "left": "0",
+            "margin-left": "15px",
+        });
+        
+        this.$el.css("display", "inline-block");
+        this.$el.removeClass("z-depth-5");
+        this.$el.css("position", "static");
+        this.$el.addClass("hoverable");
+        this.show();
       }
     }); 
 
@@ -99,13 +148,14 @@ $(document).ready(function() {
     });
 
     var profileCollection = new ProfileCollection();
-
-    $('#spinner').show();
+    
+    //$('#spinner').show();
     $.ajax({
         type: "GET",
         url: '/geet',
     })
     .done(function(data) {
+        $('#container').empty();
         for(var i in data) {
             if(data[i].pushEvents ) {
                 var gitCard = new GitCard({
@@ -149,5 +199,4 @@ $(document).ready(function() {
         $("#img-spinner").attr("src", "../assets/404.gif");
         $("#info").append("<span id='fourOfour'>404 Opps! Something went wrong... </span>");
     });
-
 });

@@ -9,6 +9,7 @@ var morgan = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
+var mustacheExpress = require('mustache-express');
 
 var configDB = require('./config/database.js');
 
@@ -21,6 +22,11 @@ require('./config/passport.js')(passport);
 //           MIDDLEWARE            //
 /////////////////////////////////////
 */
+// Setting up Mustache 
+app.engine('mustache', mustacheExpress());
+app.set('view engine', 'mustache');
+app.set('views', path.join(__dirname, 'views'));
+
 app.set('port', (process.env.PORT || 3000));
 app.use(morgan('dev'));
 app.use(express.static('./public'));

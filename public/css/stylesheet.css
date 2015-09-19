@@ -147,7 +147,6 @@ nav ul a {
 }
 
 li:hover { 
-    box-shadow: 0px 0px 10px #00BCD4;
     z-index:2;
 }
 

@@ -1,14 +1,38 @@
 var path = require('path');
-
+var fs = require('fs');
+var moment = require('moment');
 var LOGIN_PAGE = path.join(__dirname, '..', 'public', 'pages', 'login.html');
 
 module.exports = function(app, request, async, passport) {
     
+    // TEST
+    app.get('/lol', function(req, res) { 
+        var name = req.user.github.username;
+        var userToken = req.user.github.token;
+        getFriendsList(name, userToken, function(names) {
+            userData(name, names, userToken, function(results) {
+                console.log(results);
+                res.render('login', {data: results});
+            });
+        });
+    });
+
     ///////////////////////////////////////////
     ///      Default landing page / login   ///
     ///////////////////////////////////////////
     app.get('/', isLoggedIn, function(req, res) {
-        res.sendfile('./public/pages/app.html');
+        //res.sendfile('./public/pages/app.html');
+        //res.render('app', {lol: 'hey'});
+        var name = req.user.github.username;
+        var userToken = req.user.github.token;
+        // Grabs Friends List, returns array of names
+        getFriendsList(name, userToken, function(names) {
+            // Retrieves Data For Each Friend
+            userData(names, names, userToken, function(results) {
+                var data = {data: createModels(results)};
+                res.render('app', data);
+            });
+        });
     });
 
     //////////////////////////////////////////
@@ -89,7 +113,58 @@ module.exports = function(app, request, async, passport) {
                 });
         });
     });
+
+    function createModels(data) {
+        var userArray = [];
+        for(var i in data) {
+            if(data[i].pushEvents ) {
+                var gitUser = {
+                    imgUrl: data[i].pushEvents.actor.avatar_url,
+                    user: data[i].pushEvents.actor.login,
+                    userID: data[i].pushEvents.actor.login.toLowerCase(),
+                    repoName: data[i].pushEvents.repo.name,
+                    commitMsg: data[i].pushEvents.payload.commits[0].message,
+                    commitSha: data[i].pushEvents.payload.commits[0].sha.slice(0,5),
+                    commitUrl: 'http://github.com/'+data[i].pushEvents.repo.name+'/commit/'+data[i].pushEvents.payload.commits[0].sha,
+                    date: "Last pushed "+moment(data[i].pushEvents.created_at).fromNow(),
+                    dateString: data[i].pushEvents.created_at
+                };
+                if(data[i].watchEvents) {
+                    gitUser.watch = data[i].watchEvents.repo.name;
+                    gitUser.watchUrl = 'http://www.github.com/'+data[i].watchEvents.repo.name;
+                };
+                userArray.push(gitUser);
+            }
+        }
+        return userArray;
+    };
     
+    function userData(name, names, userToken, callback) {
+        var count = 0; 
+        async.times(names.length, function(_, next) {
+            var gitUrl = 'https://api.github.com/users/'+names[count]+'/events?access_token='+userToken;
+            var options = {
+                url: gitUrl,
+                headers: {
+                    'User-Agent': name
+                } 
+            };
+            count++;
+            request.get(options, function(error, response, body) {
+                var data = JSON.parse(body);
+                var pushEventNum = findPush(data);
+                var watchEventNum = findWatch(data); 
+
+                var pushEvent = data[pushEventNum];
+                var watchEventNum = data[watchEventNum];
+                return next(error, ({pushEvents: pushEvent, watchEvents: watchEventNum}));
+            });
+        }, function(err, results) {
+            console.log(results);
+            callback(results);
+        });
+    };
+
     function getFriendsList(name, userToken, callback) {
         var page = 1;
         var done = false;
