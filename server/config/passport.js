@@ -32,7 +32,7 @@ module.exports = function(passport) {
     passport.use(new GithubStrategy({
         clientID: GITHUB_CLIENT_ID,
         clientSecret: GITHUB_CLIENT_SECRET,
-        callbackURL: "http://www.gitdash.me/auth/github/callback"
+        callbackURL: "http://7ef6906e.ngrok.io/auth/github/callback"
       },
       function(token, refreshToken, profile, done) {
         User.findOne({ githubId: profile.id }, function (err, user) {
