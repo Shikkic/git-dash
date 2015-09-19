@@ -1,3 +1,7 @@
+var path = require('path');
+
+var LOGIN_PAGE = path.join(__dirname, '..', 'public', 'pages', 'login.html');
+
 module.exports = function(app, request, async, passport) {
     
     ///////////////////////////////////////////
@@ -8,7 +12,7 @@ module.exports = function(app, request, async, passport) {
     });
 
     //////////////////////////////////////////
-    ///             LOGIN                  ///
+    ///             AUTHENTICATION         ///
     //////////////////////////////////////////
     app.get('/auth/github', passport.authenticate('github', { scope: ['user:email']}));
 
@@ -31,10 +35,10 @@ module.exports = function(app, request, async, passport) {
     });
   
     ///////////////////////////////////////////
-    ///               APP                   ///
+    ///             LOGIN                   ///
     ///////////////////////////////////////////    
     app.get('/login',  function(req, res) {
-        res.sendfile('./public/pages/login.html');
+        res.status(200).set('Content-Type', 'text/html').sendFile(LOGIN_PAGE);
     });
 
     /////////////////////////////////////
