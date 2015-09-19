@@ -289,3 +289,7 @@ i:hover {
     font-size: 28px;
     color: #B71C1C;
 }
+
+.animated {
+    -webkit-animation-duration: .5s !important;
+}
