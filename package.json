@@ -34,5 +34,10 @@
     "passport-github2": "^0.1.9",
     "path": "^0.12.7",
     "request": "^2.57.0"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-jshint": "^1.11.2",
+    "jshint-stylish": "^2.0.1"
   }
 }
