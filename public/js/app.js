@@ -9,13 +9,13 @@ $(document).ready(function() {
         watchUrl: '',
       }
    });
-    
+
     var ProfileView = Backbone.View.extend({
       el: $('#container'),
 
       events: {
         'click' : 'transform',
-        //'dblclick' : 'normal'
+        'dblclick' : 'normal'
       },
 
       tagName: 'li',
@@ -24,7 +24,7 @@ $(document).ready(function() {
     
       smallCardTemplate: "<a target='_blank' href='http://github.com/{{user}}'><img class="+"profile"+" src={{imgUrl}}/><p class='name'>{{user}}</a></p><p class='date'>{{date}}</p><i class='fa fa-star star {{#watch}}{{/watch}}{{^watch}}hidden{{/watch}}'></i><a target='_blank' href='{{watchUrl}}'><p class='watch {{#watch}}{{/watch}}{{^watch}}hidden{{/watch}}'>{{#watch}}{{watch}}{{/watch}}</p></a><a target='_blank'  href='https://github.com/{{repoName}}'><p class='repo truncate'>{{repoName}}</a><a target='_blank' href='{{commitUrl}}'><p class='msg truncate'>{{commitSha}} {{commitMsg}}</p></a>",
 
-      largeCardTemplate: "",
+      largeCardTemplate: "<a target='_blank' href='http://github.com/{{user}}'><img class="+"profile-large"+" src={{imgUrl}}/><p class='name'>{{user}}</a></p><p class='date'>{{date}}</p><i class='fa fa-star star {{#watch}}{{/watch}}{{^watch}}hidden{{/watch}}'></i><a target='_blank' href='{{watchUrl}}'><p class='watch {{#watch}}{{/watch}}{{^watch}}hidden{{/watch}}'>{{#watch}}{{watch}}{{/watch}}</p></a><a target='_blank'  href='https://github.com/{{repoName}}'><p class='repo truncate'>{{repoName}}</a><a target='_blank' href='{{commitUrl}}'><p class='msg truncate'>{{commitSha}} {{commitMsg}}</p></a>",
 
       initialize: function(){
         this.render();
@@ -40,6 +40,10 @@ $(document).ready(function() {
         this.$el.html((Mustache.render(this.smallCardTemplate, this.model.toJSON())));
       },
 
+      largeCardRender: function() {
+        this.$el.html((Mustache.render(this.largeCardTemplate, this.model.toJSON())));
+      },
+
       hide: function() {
         this.$el.hide();
       },
@@ -49,8 +53,8 @@ $(document).ready(function() {
       },
 
       transform: function() {
-        //this.$el.empty()
-        //this.smallCardRender();
+        this.$el.empty()
+        this.largeCardRender();
         this.$el.css("position", "absolute");
         this.$el.height("600px");
         this.$el.width("600px");
