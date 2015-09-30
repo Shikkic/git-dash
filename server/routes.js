@@ -1,11 +1,12 @@
 var path = require('path');
 var fs = require('fs');
+var gh = require('gh-scrape');
 var moment = require('moment');
 var LOGIN_PAGE = path.join(__dirname, '..', 'public', 'pages', 'login.html');
 
 module.exports = function(app, request, async, passport) {
     
-    // TEST
+    // TEST TODO might need to remove this code?
     app.get('/lol', function(req, res) { 
         var name = req.user.github.username;
         var userToken = req.user.github.token;
@@ -89,30 +90,58 @@ module.exports = function(app, request, async, passport) {
         var name = req.user.github.username;
         var userToken = req.user.github.token;
         getFriendsList(name, userToken, function(names) {
-                var count = 0; 
-                async.times(names.length, function(_, next) {
-                    var gitUrl = 'https://api.github.com/users/'+names[count]+'/events?access_token='+userToken;
-                    var options = {
-                        url: gitUrl,
-                        headers: {
-                            'User-Agent': name
-                        } 
-                    };
-                    count++;
-                    request.get(options, function(error, response, body) {
-                        var data = JSON.parse(body);
-                        var pushEventNum = findPush(data);
-                        var watchEventNum = findWatch(data); 
+                var names = names;
+                getFriendsEventData(name, userToken, names, function(data){
+                    getFriendsProfileData(name, names, function(){
 
-                        var pushEvent = data[pushEventNum];
-                        var watchEventNum = data[watchEventNum];
-                        return next(error, ({pushEvents: pushEvent, watchEvents: watchEventNum}));
-                    });
-                }, function(err, results) {
-                    res.send(results);
+                    }}
+                    res.send(data);
                 });
         });
     });
+
+
+    function getFriendsEventData(name, userToken, friendsList, callback) {
+        var count = 0; 
+        async.times(friendsList.length, function(_, next) {
+            var gitUrl = 'https://api.github.com/users/'+friendsList[count]+'/events?access_token='+userToken;
+            var options = {
+                url: gitUrl,
+                headers: {
+                    'User-Agent': name
+                } 
+            };
+            count++;
+            request.get(options, function(error, response, body) {
+                var data = JSON.parse(body);
+                var pushEventNum = findPush(data);
+                var watchEventNum = findWatch(data); 
+
+                var pushEvent = data[pushEventNum];
+                var watchEventNum = data[watchEventNum];
+                return next(error, ({pushEvents: pushEvent, watchEvents: watchEventNum}));
+            });
+        }, function(err, results) {
+            callback(results);
+        }); 
+    };
+
+    function getFriendsProfileData(name, friendsList, callback) {
+        var count = 0; 
+        async.times(friendsList.length, function(_, next) {
+            gh.scrape('https://github.com/'+friendsList[count], function(body) {
+                var data = JSON.parse(body);
+
+                var total = data.total;
+                var longestStreak = data.longestStreak;
+                var currentStreak = data.currentStreak;
+
+                return next(error, ({total: total, longestStreak: longestStreak, currentStreak: currentStreak}));
+            });
+        }, function(err, results) {
+            callback(results);
+        });       
+    };
 
     function createModels(data) {
         var userArray = [];

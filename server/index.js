@@ -10,6 +10,10 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
 var mustacheExpress = require('mustache-express');
+var gh = require('gh-scrape');
+gh.scrape('https://github.com/shikkic', function(results) {
+    console.log(results);
+});
 
 var configDB = require('./config/database.js');
 
@@ -50,6 +54,3 @@ require('./routes.js')(app, request, async, passport);
 app.listen(app.get('port'), function() {
     console.log("listening on port: " + app.get('port'));
 });
-
-
-
