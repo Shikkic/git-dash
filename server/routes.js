@@ -27,12 +27,26 @@ module.exports = function(app, request, async, passport) {
         var name = req.user.github.username;
         var userToken = req.user.github.token;
         // Grabs Friends List, returns array of names
+        // TODO 
+        /*
         getFriendsList(name, userToken, function(names) {
             // Retrieves Data For Each Friend
             userData(names, names, userToken, function(results) {
                 var data = {data: createModels(results)};
                 res.render('app', data);
             });
+        });*/
+        var gitUrl = "https://api.github.com/users/"+ name +"/events?access_token="+userToken;
+        var options = {
+            url: gitUrl,
+            headers: {
+                'User-Agent': name
+            }
+        }; 
+        getRequest(gitUrl, options, 1, function(userData) {
+            console.log(userData);
+            res.render('app', {data: userData});
+            //res.send(data);
         });
     });
 
