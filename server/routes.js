@@ -95,9 +95,9 @@ module.exports = function(app, request, async, passport) {
                 console.log("THIS IS DATA ",data);
                 getFriendsProfileData(name, names, function(results){
                     console.log("THIS IS FINAL RESULT ",results);
-                    res.send(results);
+                    //res.send(results);
                 });
-                //res.send(data);
+                res.send(data);
             });
         });
     });
