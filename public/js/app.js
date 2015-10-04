@@ -53,7 +53,7 @@ $(document).ready(function() {
       },
 
       transform: function() {
-        this.$el.empty()
+        this.$el.empty();
         this.largeCardRender();
         this.$el.css("position", "absolute");
         this.$el.height("600px");
