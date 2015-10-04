@@ -197,6 +197,10 @@ li:hover {
     margin-bottom: 0px;
 }
 
+.name-lg {
+    margin-left: 200px;
+}
+
 .name a {
     font-size: 25px;
     color: #616161;
@@ -211,6 +215,10 @@ li:hover {
     margin-left: 140px;
     margin-top: 0px;
     color: rgb(176, 175, 175);
+}
+
+.date-lg {
+    margin-left: 201px;
 }
 
 .footr {
@@ -281,6 +289,10 @@ i:hover {
 .star {
     margin-left: 140px;
     color:#FFC400;
+}
+
+.star-lg {
+    margin-left: 201px;
 }
 
 .hidden {
