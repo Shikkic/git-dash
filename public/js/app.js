@@ -153,7 +153,7 @@ $(document).ready(function() {
 
     var profileCollection = new ProfileCollection();
     
-    //$('#spinner').show();
+    $('#spinner').show();
     $.ajax({
         type: "GET",
         url: '/geet',
