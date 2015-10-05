@@ -162,12 +162,16 @@ $(document).ready(function() {
         $('#container').empty();
         for(var i in data) {
             if(data[i].pushEvents ) {
+                console.log(data[i].pushEvents.actor.login);
+                console.log(data[i].pushEvents.payload.commits);
+                var commit = data[i].pushEvents.payload.commits ? data[i].pushEvents.payload.commits[0].message : " ";
+                var commitMsg = data[i].pushEvents.payload.commits ? data[i].pushEvents.payload.commits[0].sha.slice(0 ,5) : "";
                 var gitCard = new GitCard({
                     imgUrl: data[i].pushEvents.actor.avatar_url, 
                     user: data[i].pushEvents.actor.login, 
                     userID: data[i].pushEvents.actor.login.toLowerCase(),
                     repoName: data[i].pushEvents.repo.name, 
-                    commitMsg: data[i].pushEvents.payload.commits[0].message,
+                    commitMsg: commit,
                     commitSha: data[i].pushEvents.payload.commits[0].sha.slice(0,5),
                     commitUrl: 'http://github.com/'+data[i].pushEvents.repo.name+'/commit/'+data[i].pushEvents.payload.commits[0].sha,
                     date: "Last pushed "+moment(data[i].pushEvents.created_at).fromNow(),                 
