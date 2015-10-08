@@ -24,7 +24,21 @@ $(document).ready(function() {
     
       smallCardTemplate: "<a target='_blank' href='http://github.com/{{user}}'><img class="+"profile"+" src={{imgUrl}}/><p class='name'>{{user}}</a></p><p class='date'>{{date}}</p><i class='fa fa-star star {{#watch}}{{/watch}}{{^watch}}hidden{{/watch}}'></i><a target='_blank' href='{{watchUrl}}'><p class='watch {{#watch}}{{/watch}}{{^watch}}hidden{{/watch}}'>{{#watch}}{{watch}}{{/watch}}</p></a><a target='_blank'  href='https://github.com/{{repoName}}'><p class='repo truncate'>{{repoName}}</a><a target='_blank' href='{{commitUrl}}'><p class='msg truncate'>{{commitSha}} {{commitMsg}}</p></a>",
 
-      largeCardTemplate: "<a target='_blank' href='http://github.com/{{user}}'><img class="+"profile-large"+" src={{imgUrl}}/><p class='name name-lg'>{{user}}</a></p><p class='date date-lg'>{{date}}</p><i class='fa fa-star star {{#watch}}{{/watch}}{{^watch}}hidden{{/watch}}'></i><a target='_blank' href='{{watchUrl}}'><p class='watch {{#watch}}{{/watch}}{{^watch}}hidden{{/watch}}'>{{#watch}}{{watch}}{{/watch}}</p></a><a target='_blank'  href='https://github.com/{{repoName}}'><p class='repo truncate'>{{repoName}}</a><a target='_blank' href='{{commitUrl}}'><p class='msg truncate'>{{commitSha}} {{commitMsg}}</p></a>",
+      largeCardTemplate:   "<a target='_blank' href='http://github.com/{{user}}'>"
+                            + '<img class="profile-large" src={{imgUrl}}/>'
+                            + "<p class='name'>{{user}}</p>"
+                         + "</a>"
+                         + "<p class='date date-lg'>{{currentStreak}}</p>"
+                         + "<i class='fa fa-star star {{#watch}}{{/watch}}{{^watch}}hidden{{/watch}}'></i>"
+                         + "<a target='_blank' href='{{watchUrl}}'>"
+                            + "<p class='watch {{#watch}}{{/watch}}{{^watch}}hidden{{/watch}}'>{{#watch}}{{watch}}{{/watch}}</p>"
+                         + "</a>"
+                         + "<a target='_blank' href='https://github.com/{{repoName}}'>"
+                            + "<p class='repo truncate'>{{repoName}}</p>"
+                         + "</a>"
+                         + "<a target='_blank' href='{{commitUrl}}'>"
+                             + "<p class='msg truncate'>{{commitSha}} {{commitMsg}}</p>"
+                         + "</a>",
 
       initialize: function(){
         this.render();
@@ -160,31 +174,38 @@ $(document).ready(function() {
     })
     .done(function(data) {
         $('#container').empty();
+        console.log(data);
         for(var i in data) {
-            if(data[i].pushEvents ) {
-                console.log(data[i].pushEvents.actor.login);
-                console.log(data[i].pushEvents.payload.commits);
-                var commit = data[i].pushEvents.payload.commits ? data[i].pushEvents.payload.commits[0].message : " ";
-                var commitMsg = data[i].pushEvents.payload.commits ? data[i].pushEvents.payload.commits[0].sha.slice(0 ,5) : "";
+            if(data[i].eventData.pushEvents ) {
+                console.log(data[i].eventData.pushEvents.actor.login);
+                console.log(data[i].eventData.pushEvents.payload.commits);
+                var commit = data[i].eventData.pushEvents.payload.commits ? data[i].eventData.pushEvents.payload.commits[0].message : " ";
+                var commitMsg = data[i].eventData.pushEvents.payload.commits ? data[i].eventData.pushEvents.payload.commits[0].sha.slice(0 ,5) : "";
                 var gitCard = new GitCard({
-                    imgUrl: data[i].pushEvents.actor.avatar_url, 
-                    user: data[i].pushEvents.actor.login, 
-                    userID: data[i].pushEvents.actor.login.toLowerCase(),
-                    repoName: data[i].pushEvents.repo.name, 
+                    imgUrl: data[i].eventData.pushEvents.actor.avatar_url, 
+                    user: data[i].eventData.pushEvents.actor.login, 
+                    userID: data[i].eventData.pushEvents.actor.login.toLowerCase(),
+                    repoName: data[i].eventData.pushEvents.repo.name, 
                     commitMsg: commit,
-                    commitSha: data[i].pushEvents.payload.commits[0].sha.slice(0,5),
-                    commitUrl: 'http://github.com/'+data[i].pushEvents.repo.name+'/commit/'+data[i].pushEvents.payload.commits[0].sha,
-                    date: "Last pushed "+moment(data[i].pushEvents.created_at).fromNow(),                 
-                    dateString: data[i].pushEvents.created_at
+                    commitSha: data[i].eventData.pushEvents.payload.commits[0].sha.slice(0,5),
+                    commitUrl: 'http://github.com/'+data[i].eventData.pushEvents.repo.name+'/commit/'+data[i].eventData.pushEvents.payload.commits[0].sha,
+                    date: "Last pushed "+moment(data[i].eventData.pushEvents.created_at).fromNow(),                 
+                    dateString: data[i].eventData.pushEvents.created_at
                 });
-                if(data[i].watchEvents) {
+                if(data[i].eventData.watchEvents) {
                     gitCard.set({
-                        watch: data[i].watchEvents.repo.name,
-                        watchUrl: 'http://www.github.com/'+data[i].watchEvents.repo.name 
+                        watch: data[i].eventData.watchEvents.repo.name,
+                        watchUrl: 'http://www.github.com/'+data[i].eventData.watchEvents.repo.name 
                     });
                 }
                 profileCollection.add(gitCard);
                 //var view = new ProfileView({model: gitCard});
+            } if(data[i].contributions) {
+                gitCard.set({
+                    currentStreak: data[i].contributions.currentStreaks,
+                    longestStreak: data[i].contributions.longestStreaks,
+                    totalContributions: data[i].contributions.totals
+                });
             }
         }
         if(profileCollection.length) {
