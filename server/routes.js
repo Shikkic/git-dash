@@ -106,12 +106,18 @@ module.exports = function(app, request, async, passport) {
         getFriendsList(name, userToken, function(names) {
             var names = names;
             getFriendsEventData(name, userToken, names, function(data){
-                console.log("THIS IS DATA ",data);
-                getFriendsProfileData(name, names, function(results){
-                    console.log("THIS IS FINAL RESULT ",results);
-                    //res.send(results);
+                getFriendsProfileData(name, names, data, function(results){
+                    var userList = [];
+                    // TODO create a function for this!
+                    for (var i = 0; i < data.length - 1; i++) {
+                        var user = {
+                            contributions: results[i],
+                            eventData: data[i]
+                        };
+                        userList.push(user);
+                    }
+                    res.send(userList);
                 });
-                res.send(data);
             });
         });
     });
@@ -128,6 +134,7 @@ module.exports = function(app, request, async, passport) {
                 } 
             };
             count++;
+            console.log("EventData ",count);
             request.get(options, function(error, response, body) {
                 var data = JSON.parse(body);
                 var pushEventNum = findPush(data);
@@ -135,31 +142,43 @@ module.exports = function(app, request, async, passport) {
 
                 var pushEvent = data[pushEventNum];
                 var watchEventNum = data[watchEventNum];
+                console.log("EventData inside Request ", count);
                 return next(error, ({pushEvents: pushEvent, watchEvents: watchEventNum}));
             });
         }, function(err, results) {
+            console.log("async done for event data");
             callback(results);
         }); 
     };
 
-    function getFriendsProfileData(name, friendsList, callback) {
+    function getFriendsProfileData(name, friendsList, eventData, callback) {
+        console.log(friendsList);
         var count = 0; 
         async.times(friendsList.length, function(_, next) { 
             console.log("Scraping commensing");
             console.log("FRIENDS NAME = ", friendsList[count]);
             var name = friendsList[count];
+            var gitUrl = "https://github.com/"+friendsList[count];
+            var options = {
+                url: gitUrl,
+                headers: {
+                    'User-Agent': name
+                } 
+            };
+            console.log("ProfileData ", count);
             count++;
-            getRequest2("https://github.com/"+friendsList[count], function(html) {
-                console.log("running process");
-                scrapeCon(html, function(body) {
+            request.get(options, function(error, response, body) {
+                scrapeCon(body, function(body) {
                     var data = body;
                     console.log(body);
                     var total = data.total;
                     var longestStreak = data.longestStreak;
                     var currentStreak = data.currentStreak;
                     console.log(total, "+", longestStreak, "+", currentStreak);
+                    console.log("ProfileData inside Request ", count);
+                    var contributions = {totals: total, longestStreaks: longestStreak, currentStreaks: currentStreak};
 
-                    return next(_, ({totals: total, longestStreaks: longestStreak, currentStreaks: currentStreak}));
+                    return next(null, contributions);
                 });
             });
         }, function(err, results) {
@@ -269,10 +288,11 @@ module.exports = function(app, request, async, passport) {
                 }
                 callback(data[count]); 
             }
-            return Error;
+            return error;
         });
     };
 
+    // TODO This is a fucked function remove
     function getRequest2(gitUrl, callback) {
     var options = {
         url: gitUrl
@@ -281,7 +301,7 @@ module.exports = function(app, request, async, passport) {
         if(!error) {
             callback(body);
         }
-        return Error;
+        return error;
     });
 };
 
