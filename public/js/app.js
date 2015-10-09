@@ -26,7 +26,10 @@ $(document).ready(function() {
 
       largeCardTemplate:  '<img class="profile-large" src={{imgUrl}}/>'
                             + "<p class='name name-lg'><a target='_blank' href='http://github.com/{{user}}'>{{user}}</a></p>"
-                         + ""
+                         + "<div class='personal-data'>"
+                            + "<p class='company'>{{company}}</p>"
+                            + "<p class='location'>{{location}}</p>"
+                         + "</div>"
                          + "<p class='date date-lg'>{{currentStreak}}</p>"
                          + "<i class='fa fa-star star {{#watch}}{{/watch}}{{^watch}}hidden{{/watch}}'></i>"
                          + "<a target='_blank' href='{{watchUrl}}'>"
@@ -213,6 +216,11 @@ $(document).ready(function() {
                     currentStreak: data[i].contributions.currentStreaks,
                     longestStreak: data[i].contributions.longestStreaks,
                     totalContributions: data[i].contributions.totals
+                });
+            } if(data[i].personalData) {
+                gitCard.set({
+                    company: data[i].personalData.personalData.company,
+                    location: data[i].personalData.personalData.location
                 });
             }
         }
