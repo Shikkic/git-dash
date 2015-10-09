@@ -12,7 +12,6 @@ module.exports = function(app, request, async, passport) {
         var userToken = req.user.github.token;
         getFriendsList(name, userToken, function(names) {
             userData(name, names, userToken, function(results) {
-                console.log(results);
                 res.render('login', {data: results});
             });
         });
@@ -107,16 +106,19 @@ module.exports = function(app, request, async, passport) {
             var names = names;
             getFriendsEventData(name, userToken, names, function(data){
                 getFriendsProfileData(name, names, data, function(results){
+                    getFriendsPersonalData(name, userToken, names, function(personalData) {
                     var userList = [];
                     // TODO create a function for this!
                     for (var i = 0; i < data.length - 1; i++) {
                         var user = {
                             contributions: results[i],
-                            eventData: data[i]
+                            eventData: data[i],
+                            personalData: personalData[i]
                         };
                         userList.push(user);
                     }
                     res.send(userList);
+                    });
                 });
             });
         });
@@ -134,7 +136,6 @@ module.exports = function(app, request, async, passport) {
                 } 
             };
             count++;
-            console.log("EventData ",count);
             request.get(options, function(error, response, body) {
                 var data = JSON.parse(body);
                 var pushEventNum = findPush(data);
@@ -142,11 +143,29 @@ module.exports = function(app, request, async, passport) {
 
                 var pushEvent = data[pushEventNum];
                 var watchEventNum = data[watchEventNum];
-                console.log("EventData inside Request ", count);
                 return next(error, ({pushEvents: pushEvent, watchEvents: watchEventNum}));
             });
         }, function(err, results) {
-            console.log("async done for event data");
+            callback(results);
+        }); 
+    };
+
+    function getFriendsPersonalData(name, userToken, friendsList, callback) {
+        var count = 0; 
+        async.times(friendsList.length, function(_, next) {
+            var gitUrl = 'https://api.github.com/users/'+friendsList[count]+'?access_token='+userToken;
+            var options = {
+                url: gitUrl,
+                headers: {
+                    'User-Agent': name
+                } 
+            };
+            count++;
+            request.get(options, function(error, response, body) {
+                var data = JSON.parse(body);
+                return next(error, ({personalData: data}));
+            });
+        }, function(err, results) {
             callback(results);
         }); 
     };
@@ -155,8 +174,6 @@ module.exports = function(app, request, async, passport) {
         console.log(friendsList);
         var count = 0; 
         async.times(friendsList.length, function(_, next) { 
-            console.log("Scraping commensing");
-            console.log("FRIENDS NAME = ", friendsList[count]);
             var name = friendsList[count];
             var gitUrl = "https://github.com/"+friendsList[count];
             var options = {
@@ -165,24 +182,19 @@ module.exports = function(app, request, async, passport) {
                     'User-Agent': name
                 } 
             };
-            console.log("ProfileData ", count);
             count++;
             request.get(options, function(error, response, body) {
                 scrapeCon(body, function(body) {
                     var data = body;
-                    console.log(body);
                     var total = data.total;
                     var longestStreak = data.longestStreak;
                     var currentStreak = data.currentStreak;
-                    console.log(total, "+", longestStreak, "+", currentStreak);
-                    console.log("ProfileData inside Request ", count);
                     var contributions = {totals: total, longestStreaks: longestStreak, currentStreaks: currentStreak};
 
                     return next(null, contributions);
                 });
             });
         }, function(err, results) {
-            console.log("This is the end of the async = ", results);
             callback(results);
         });       
     };
@@ -279,7 +291,6 @@ module.exports = function(app, request, async, passport) {
                 var count = 0;
                 var found = false;
                 while(found != true && count < data.length) {
-                    console.log(data[count].type);
                     if(data[count].type == "PushEvent") {
                         found = true;
                         break;
