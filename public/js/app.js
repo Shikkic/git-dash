@@ -178,17 +178,26 @@ $(document).ready(function() {
         for(var i in data) {
             if(data[i].eventData.pushEvents ) {
                 console.log(data[i].eventData.pushEvents.actor.login);
-                console.log(data[i].eventData.pushEvents.payload.commits);
-                var commit = data[i].eventData.pushEvents.payload.commits ? data[i].eventData.pushEvents.payload.commits[0].message : " ";
-                var commitMsg = data[i].eventData.pushEvents.payload.commits ? data[i].eventData.pushEvents.payload.commits[0].sha.slice(0 ,5) : "";
+                console.log(data[i].eventData.pushEvents.payload.commits[0]);
+                if (data[i].eventData.pushEvents.payload.commits[0]) {
+                    var commit = data[i].eventData.pushEvents.payload.commits.length ? data[i].eventData.pushEvents.payload.commits[0].message : " ";
+                    var commitMsg = data[i].eventData.pushEvents.payload.commits.length ? data[i].eventData.pushEvents.payload.commits[0].sha.slice(0 ,5) : "";
+                    var commitSha = data[i].eventData.pushEvents.payload.commits[0].sha.slice(0,5);
+                    var commitUrl ='http://github.com/'+data[i].eventData.pushEvents.repo.name+'/commit/'+data[i].eventData.pushEvents.payload.commits[0].sha;
+                } else {
+                    var commit = "";
+                    var commitMsg = "";
+                    var commitSha = "";
+                    var commitUrl = "";
+                }
                 var gitCard = new GitCard({
                     imgUrl: data[i].eventData.pushEvents.actor.avatar_url, 
                     user: data[i].eventData.pushEvents.actor.login, 
                     userID: data[i].eventData.pushEvents.actor.login.toLowerCase(),
                     repoName: data[i].eventData.pushEvents.repo.name, 
                     commitMsg: commit,
-                    commitSha: data[i].eventData.pushEvents.payload.commits[0].sha.slice(0,5),
-                    commitUrl: 'http://github.com/'+data[i].eventData.pushEvents.repo.name+'/commit/'+data[i].eventData.pushEvents.payload.commits[0].sha,
+                    commitSha: commitSha,
+                    commitUrl: commitUrl,
                     date: "Last pushed "+moment(data[i].eventData.pushEvents.created_at).fromNow(),                 
                     dateString: data[i].eventData.pushEvents.created_at
                 });
