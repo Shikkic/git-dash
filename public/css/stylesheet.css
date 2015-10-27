@@ -7,6 +7,15 @@ body {
     margin-top: 0px;
 }
 
+.personal-data {
+    margin-left: 202px;
+    
+}
+
+.personal-data p {
+    margin: 0;
+}
+
 #userProfilePictureContainer {
     margin-top: 7px;
     margin-right: 20px;
