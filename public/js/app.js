@@ -26,10 +26,14 @@ $(document).ready(function() {
 
       largeCardTemplate:  '<img class="profile-large" src={{imgUrl}}/>'
                             + "<p class='name name-lg'><a target='_blank' href='http://github.com/{{user}}'>{{user}}</a></p>"
-                         + "<div class='personal-data'>"
-                            + "<p class='company'>{{company}}</p>"
-                            + "<p class='location'>{{location}}</p>"
-                         + "</div>"
+                         + "<ul class='personal-data'>"
+                            + "{{#company}}"
+                                + "<li class='company'><i class='fa fa-users'></i>{{company}}</li>"
+                            + "{{/company}}"
+                            + "{{#location}}"
+                                + "<li class='location'><i class='fa fa-map-marker fg-2x'></i>{{location}}</li>"
+                            + "{{/location}}"
+                         + "</ul>"
                          + "<p class='date date-lg'>{{currentStreak}}</p>"
                          + "<i class='fa fa-star star {{#watch}}{{/watch}}{{^watch}}hidden{{/watch}}'></i>"
                          + "<a target='_blank' href='{{watchUrl}}'>"
