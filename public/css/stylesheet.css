@@ -9,11 +9,28 @@ body {
 
 .personal-data {
     margin-left: 202px;
-    
+    margin-top: 10px; 
 }
 
 .personal-data p {
     margin: 0;
+    display: inline-block;
+}
+
+.company {
+}
+
+.personal-data i {
+    padding-right: 5px;
+    color: gray;
+}
+
+.location {
+    margin-left: 3px;
+}
+
+.location i {
+    padding-right: 10px;
 }
 
 #userProfilePictureContainer {
@@ -124,7 +141,7 @@ nav ul a {
     max-width: 100px;
     max-height: 100px;
     box-shadow: 0px 0px 10px rgba(0,0,0,0.45);
-    border-radius: 0px;
+    border-radius: 3px;
 }
 
 .profile-large {
