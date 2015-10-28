@@ -180,11 +180,9 @@ $(document).ready(function() {
     })
     .done(function(data) {
         $('#container').empty();
-        console.log(data);
         for(var i in data) {
             if(data[i].eventData.pushEvents ) {
-                console.log(data[i].eventData.pushEvents.actor.login);
-                console.log(data[i].eventData.pushEvents.payload.commits[0]);
+                console.log(data[i]);
                 if (data[i].eventData.pushEvents.payload.commits[0]) {
                     var commit = data[i].eventData.pushEvents.payload.commits.length ? data[i].eventData.pushEvents.payload.commits[0].message : " ";
                     var commitMsg = data[i].eventData.pushEvents.payload.commits.length ? data[i].eventData.pushEvents.payload.commits[0].sha.slice(0 ,5) : "";
