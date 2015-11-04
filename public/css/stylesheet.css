@@ -7,6 +7,18 @@ body {
     margin-top: 0px;
 }
 
+.fa-times {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    font-size: 45px !important;
+    color: #BDBDBD;
+}
+
+.fa-times:hover {
+    color: #757575;
+}
+
 .personal-data {
     margin-left: 202px;
     margin-top: 10px; 

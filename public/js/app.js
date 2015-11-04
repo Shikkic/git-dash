@@ -14,8 +14,8 @@ $(document).ready(function() {
       el: $('#container'),
 
       events: {
-        'click' : 'transform',
-        'dblclick' : 'normal'
+        'dblclick' : 'transform',
+        'click .fa-times' : 'normal'
       },
 
       tagName: 'li',
@@ -24,7 +24,8 @@ $(document).ready(function() {
     
       smallCardTemplate: "<a target='_blank' href='http://github.com/{{user}}'><img class="+"profile"+" src={{imgUrl}}/><p class='name'>{{user}}</a></p><p class='date'>{{date}}</p><i class='fa fa-star star {{#watch}}{{/watch}}{{^watch}}hidden{{/watch}}'></i><a target='_blank' href='{{watchUrl}}'><p class='watch {{#watch}}{{/watch}}{{^watch}}hidden{{/watch}}'>{{#watch}}{{watch}}{{/watch}}</p></a><a target='_blank'  href='https://github.com/{{repoName}}'><p class='repo truncate'>{{repoName}}</a><a target='_blank' href='{{commitUrl}}'><p class='msg truncate'>{{commitSha}} {{commitMsg}}</p></a>",
 
-      largeCardTemplate:  '<img class="profile-large" src={{imgUrl}}/>'
+      largeCardTemplate: "<i class='fa fa-times'></i>"  
+                         + "<img class='profile-large' src={{imgUrl}}/>"
                             + "<p class='name name-lg'><a target='_blank' href='http://github.com/{{user}}'>{{user}}</a></p>"
                          + "<ul class='personal-data'>"
                             + "{{#company}}"
@@ -75,7 +76,8 @@ $(document).ready(function() {
       transform: function() {
         this.$el.empty();
         this.largeCardRender();
-        this.$el.css("position", "absolute");
+        this.$el.css("position", "fixed");
+        this.$el.css("top", "70px");
         this.$el.height("600px");
         this.$el.width("600px");
         /*this.$el.animate({
