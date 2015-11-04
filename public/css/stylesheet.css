@@ -43,6 +43,7 @@ body {
 #userImage {
     width: 50px;
     height: 50px;
+    border-radius: 3px;
 }
 
 #title h1 {
@@ -54,7 +55,7 @@ body {
 nav {
     background-color: #EEEEEE; 
     box-shadow: none;
-    border-bottom: 1px solid #616161;
+    border-bottom: 1px solid #BDBDBD;
 }
 
 nav .brand-logo {

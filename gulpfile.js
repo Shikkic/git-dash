@@ -1,6 +1,7 @@
 var gulp = require('gulp'),
     exec = require('child_process').exec,
-    jshint = require('gulp-jshint');
+    jshint = require('gulp-jshint'),
+    gutil = require('gulp-util');
 
 gulp.task('default', ['run', 'watch']);
 
@@ -8,8 +9,15 @@ gulp.task('run', function(cb) {
     exec('mongod', function (err, stdout, stderr) {
         cb(err);
     });
-    exec('node ./server/index.js', function (err, stdout, stderr) {
-        cb(err);
+    var nodeChild = exec('node ./server/index.js');
+    nodeChild.stdout.on('data', function(data) {
+        console.log('node: ' + data);
+    });
+    nodeChild.stderr.on('data', function(data) {
+        console.log('node: ' + data);
+    });
+    nodeChild.on('close', function(code) {
+        console.log('closing code: ' + code);
     });
 });
 
