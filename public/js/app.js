@@ -34,6 +34,9 @@ $(document).ready(function() {
                             + "{{#location}}"
                                 + "<li class='location'><i class='fa fa-map-marker fg-2x'></i>{{location}}</li>"
                             + "{{/location}}"
+                            + "{{#blog}}"
+                                + "<li class='blog'><i class='fa fa-commenting'></i>{{blog}}</li>"
+                            + "{{/blog}}"
                          + "</ul>"
                          + "<p class='date date-lg'>{{currentStreak}}</p>"
                          + "<i class='fa fa-star star {{#watch}}{{/watch}}{{^watch}}hidden{{/watch}}'></i>"
@@ -224,7 +227,10 @@ $(document).ready(function() {
             } if(data[i].personalData) {
                 gitCard.set({
                     company: data[i].personalData.personalData.company,
-                    location: data[i].personalData.personalData.location
+                    location: data[i].personalData.personalData.location,
+                    //TODO add these to the view
+                    blog: data[i].personalData.personalData.blog
+                    
                 });
             }
         }
