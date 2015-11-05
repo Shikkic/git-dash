@@ -35,7 +35,7 @@ $(document).ready(function() {
                                 + "<li class='location'><i class='fa fa-map-marker fg-2x'></i>{{location}}</li>"
                             + "{{/location}}"
                             + "{{#blog}}"
-                                + "<li class='blog'><i class='fa fa-commenting'></i>{{blog}}</li>"
+                                + "<li class='blog'><i class='fa fa-link'></i><a href='{{blog}}'>{{blog}}</a></li>"
                             + "{{/blog}}"
                          + "</ul>"
                          + "<p class='date date-lg'>{{currentStreak}}</p>"

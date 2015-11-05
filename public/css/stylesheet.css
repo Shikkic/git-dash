@@ -45,11 +45,19 @@ body {
     padding-right: 10px;
 }
 
+.blog {
+
+}
+
 #userProfilePictureContainer {
     margin-top: 7px;
-    margin-right: 20px;
+    margin-right: 82px;
     width: 50px;
     height: 50px;
+}
+
+#userPcontainer {
+    margin-right: 82px;
 }
 
 #userImage {
@@ -110,7 +118,7 @@ nav ul a {
 
 #logo {
     font-size: 50px;
-    margin-left: 15px;
+    margin-left: 92px;
     font-weight: 600;
     color: #000;
 }
