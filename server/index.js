@@ -11,9 +11,6 @@ var bodyParser = require('body-parser');
 var session = require('express-session');
 var mustacheExpress = require('mustache-express');
 var gh = require('gh-scrape');
-gh.scrape('https://github.com/shikkic', function(results) {
-    console.log(results);
-});
 
 var configDB = require('./config/database.js');
 

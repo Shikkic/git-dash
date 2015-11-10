@@ -1,0 +1,103 @@
+var ProfileView = Backbone.View.extend({
+      el: $('#container'),
+
+      events: {
+        'dblclick' : 'transform',
+        'click .fa-times' : 'normal'
+      },
+
+      tagName: 'li',
+ 
+      baseCard: "<li id='{{userID}}'class='col s4 truncate card-panel hoverable animated zoomIn git-cards'"+"><a target='_blank' href='http://github.com/{{user}}'><img class="+"profile"+" src={{imgUrl}}/><p class='name'>{{user}}</a></p><p class='date'>{{date}}</p><i class='fa fa-star star {{#watch}}{{/watch}}{{^watch}}hidden{{/watch}}'></i><a target='_blank' href='{{watchUrl}}'><p class='watch {{#watch}}{{/watch}}{{^watch}}hidden{{/watch}}'>{{#watch}}{{watch}}{{/watch}}</p></a><a target='_blank'  href='https://github.com/{{repoName}}'><p class='repo truncate'>{{repoName}}</a><a target='_blank' href='{{commitUrl}}'><p class='msg truncate'>{{commitSha}} {{commitMsg}}</p></a></li>",
+    
+      smallCardTemplate: "<a target='_blank' href='http://github.com/{{user}}'><img class="+"profile"+" src={{imgUrl}}/><p class='name'>{{user}}</a></p><p class='date'>{{date}}</p><i class='fa fa-star star {{#watch}}{{/watch}}{{^watch}}hidden{{/watch}}'></i><a target='_blank' href='{{watchUrl}}'><p class='watch {{#watch}}{{/watch}}{{^watch}}hidden{{/watch}}'>{{#watch}}{{watch}}{{/watch}}</p></a><a target='_blank'  href='https://github.com/{{repoName}}'><p class='repo truncate'>{{repoName}}</a><a target='_blank' href='{{commitUrl}}'><p class='msg truncate'>{{commitSha}} {{commitMsg}}</p></a>",
+
+      largeCardTemplate: "<i class='fa fa-times'></i>"  
+                         + "<img class='profile-large' src={{imgUrl}}/>"
+                            + "<p class='name name-lg'><a target='_blank' href='http://github.com/{{user}}'>{{user}}</a></p>"
+                         + "<ul class='personal-data'>"
+                            + "{{#company}}"
+                                + "<li class='company'><i class='fa fa-users'></i>{{company}}</li>"
+                            + "{{/company}}"
+                            + "{{#location}}"
+                                + "<li class='location'><i class='fa fa-map-marker fg-2x'></i>{{location}}</li>"
+                            + "{{/location}}"
+                            + "{{#blog}}"
+                                + "<li class='blog'><i class='fa fa-link'></i><a href='{{blog}}'>{{blog}}</a></li>"
+                            + "{{/blog}}"
+                         + "</ul>"
+                         + "<p class='date date-lg'>{{currentStreak}}</p>"
+                         + "<i class='fa fa-star star {{#watch}}{{/watch}}{{^watch}}hidden{{/watch}}'></i>"
+                         + "<a target='_blank' href='{{watchUrl}}'>"
+                            + "<p class='watch {{#watch}}{{/watch}}{{^watch}}hidden{{/watch}}'>{{#watch}}{{watch}}{{/watch}}</p>"
+                         + "</a>"
+                         + "<a target='_blank' href='https://github.com/{{repoName}}'>"
+                            + "<p class='repo truncate'>{{repoName}}</p>"
+                         + "</a>"
+                         + "<a target='_blank' href='{{commitUrl}}'>"
+                             + "<p class='msg truncate'>{{commitSha}} {{commitMsg}}</p>"
+                         + "</a>",
+
+      initialize: function(){
+        this.render();
+        this.setElement('#'+this.model.get('userID'));
+      },
+
+      render: function() {
+        this.$el.append((Mustache.render(this.baseCard, this.model.toJSON())));
+        return this;
+      },
+
+      smallCardRender: function() {
+        this.$el.html((Mustache.render(this.smallCardTemplate, this.model.toJSON())));
+      },
+
+      largeCardRender: function() {
+        this.$el.html((Mustache.render(this.largeCardTemplate, this.model.toJSON())));
+      },
+
+      hide: function() {
+        this.$el.hide();
+      },
+
+      show: function() {
+        this.$el.show();
+      },
+
+      transform: function() {
+        this.$el.empty();
+        this.largeCardRender();
+        this.$el.css("position", "fixed");
+        this.$el.css("top", "70px");
+        this.$el.height("600px");
+        this.$el.width("600px");
+        /*this.$el.animate({
+            height: '500px',
+            width: '600px'
+        }, 500);*/
+        this.$el.css("left", "50%");
+        this.$el.css("margin-left", "-300px");
+        this.$el.addClass("z-depth-5");
+        this.$el.removeClass("hoverable");
+        this.$el.css("z-index", "2");
+      },
+
+      normal: function() {
+        //$('#'+this.model.get('userID')).hide(); 
+        this.smallCardRender();
+        this.hide();
+        console.log(this.$el);
+        $('#'+this.model.get('userID')).height('210px');
+        $('#'+this.model.get('userID')).width('410px');
+        this.$el.css({
+            "left": "0",
+            "margin-left": "15px",
+        });
+        
+        this.$el.css("display", "inline-block");
+        this.$el.removeClass("z-depth-5");
+        this.$el.css("position", "static");
+        this.$el.addClass("hoverable");
+        this.show();
+      }
+    });
