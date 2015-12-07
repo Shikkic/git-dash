@@ -8,9 +8,9 @@ define([
     "../../../js/collections/profile-collection",
     "../../../js/collection-views/profile-collection-view"
 ], function($, Moments, Mustache, _, Backbone, GitCard, ProfileCollection, ProfileCollectionView) {
+
     // Initiliaze ProfileCollections
     var profileCollection = new ProfileCollection();
-
 
     // kick off the app
     $(document).ready(function() {
@@ -100,6 +100,6 @@ define([
             $("#img-spinner").attr("src", "../assets/404.gif");
             $("#info").append("<span id='fourOfour'>404 Opps! Something went wrong... </span>");
         });
-        
+
     });
 });
