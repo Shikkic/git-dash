@@ -5,8 +5,6 @@ define([
 	"../views/profile-view"
 ], function(Backbone, Stickit, InputModel, ProfileView) {
 
-	console.log(InputModel);
-
 	var ProfileCollectionView = Backbone.View.extend({
         collection: null,
 
@@ -20,21 +18,19 @@ define([
 
         initialize: function() {
             this.model = new InputModel({});
-            this.listenTo(this.model, {
-                'change:inputVal':this.updateText
-            });
+            this.listenTo(this.model, {'change:inputVal':this.updateText});
             this.inputVal = $("#search").val(); 
             this.stickit();
         },
 
         updateText: function(e) {
-            console.log("updatedText");
             this.inputVal = $("#search").val();
             this.filter();
         },
 
         render: function() {
             var viewCollection = [];
+            // Use different _.each instead 
             this.collection.forEach(function(item) {
                 var view = new ProfileView({model: item});
                 viewCollection.push(view);
