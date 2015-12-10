@@ -9,9 +9,36 @@ define([
     "../../../js/collection-views/profile-collection-view"
 ], function($, Moments, Mustache, _, Backbone, GitCard, ProfileCollection, ProfileCollectionView) {
 
-    // Initiliaze ProfileCollections
-    var profileCollection = new ProfileCollection();
+    $(function() {
+        console.log("about to create a pageView");
+        var PageView = Backbone.View.extend({
 
+            initialize: function(options) {
+                // Initiliaze ProfileCollections
+                console.log("initializing new collection");
+                console.log(this);
+                var profileCollection = new ProfileCollection({});
+                this.listenTo(ProfileCollection, 'change', function() {
+                    console.log("Profile Collection! = ", profileCollection.collection);
+                }); 
+                profileCollection.fetch({success: function() {
+                    console.log("success?", profileCollection.models);
+                }});
+            }
+
+        });
+
+        var pageView = new PageView({
+            el: $('body')
+        });
+
+        console.log(PageView);
+        
+    });
+    
+});
+
+/*
     // kick off the app
     $(document).ready(function() {
         $('#spinner').show();
@@ -102,4 +129,4 @@ define([
         });
 
     });
-});
+});*/

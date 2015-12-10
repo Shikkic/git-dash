@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <!-- TODO create local dependencies -->
         <link href='http://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300' rel='stylesheet' type='text/css'> 
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/css/materialize.min.css">
         <link rel="stylesheet" type="text/css" href="./css/stylesheet.css">
 		<link rel="stylesheet" href="./css/animate.css">
  		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-		<script data-main="js/config" src="js/lib/require.js"></script>
         <title>Github - Dashboard</title>
     </head>
     <body>
@@ -24,17 +24,18 @@
 			</div>
  		</nav>
         <section id="info">
-        <div id="spinner" class="spinner" style="display:none;">
-                <img id="img-spinner" src="../assets/loader.gif" alt="Loading"/>
-        </div>
-        <ul id="container" class="list-inline">
-            <!--{{#data}}
-                {{> card}}
-                {{/data}}-->
-        </ul>
+            <div id="spinner" class="spinner" style="display:none;">
+                    <img id="img-spinner" src="../assets/loader.gif" alt="Loading"/>
+            </div>
+            <ul id="container" class="list-inline">
+                <!--{{#data}}
+                    {{> card}}
+                    {{/data}}-->
+            </ul>
         </section>
         <footer class="footr">
             <p> Made with <i class="fa fa-heart"></i> by <a class="plink" href='http://www.github.com/Shikkic'</a>Shikkic</p>
         </footer>
     </body>
+	<script data-main="js/config" src="js/lib/require.js"></script>
 </html>

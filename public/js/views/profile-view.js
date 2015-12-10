@@ -6,10 +6,6 @@ define([
   "text!../../../templates/large-card.mustache"
 ], function(Backbone, Mustache, BaseCardTemplate, SmallCardTemplate, LargeCardTemplate) {
 
-  console.log(BaseCardTemplate);
-  console.log(SmallCardTemplate);
-
-
   var ProfileView = Backbone.View.extend({
 
       el: $('#container'),
