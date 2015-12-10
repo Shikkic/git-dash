@@ -4,38 +4,30 @@ define([
     "mustache",
     "underscore",
     "backbone",
-    "../../../js/models/gitcard",
     "../../../js/collections/profile-collection",
     "../../../js/collection-views/profile-collection-view"
-], function($, Moments, Mustache, _, Backbone, GitCard, ProfileCollection, ProfileCollectionView) {
+], function($, Moments, Mustache, _, Backbone, ProfileCollection, ProfileCollectionView) {
 
-    $(function() {
-        console.log("about to create a pageView");
         var PageView = Backbone.View.extend({
 
             initialize: function(options) {
                 // Initiliaze ProfileCollections
                 console.log("initializing new collection");
-                console.log(this);
                 var profileCollection = new ProfileCollection({});
-                this.listenTo(ProfileCollection, 'change', function() {
-                    console.log("Profile Collection! = ", profileCollection.collection);
-                }); 
-                profileCollection.fetch({success: function() {
-                    console.log("success?", profileCollection.models);
-                }});
+                // Fetch from our server the new data
+                // Async XHR might be depricated in vanilla js, so becareful
+                // Could toggle the loading gif now
+                profileCollection.fetch({async: false});
+                // Could untoggle it now or on success
+                console.log(profileCollection);
+                // Initialize Profile-CollectionView
             }
 
         });
 
-        var pageView = new PageView({
-            el: $('body')
-        });
+        // Instantiate our Page View
+        var pageView = new PageView({el: $('body')});
 
-        console.log(PageView);
-        
-    });
-    
 });
 
 /*

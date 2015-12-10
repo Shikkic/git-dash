@@ -8,36 +8,16 @@ define([
 
         model: GitCardModel,
 
+        url: '/geet',
+
         initialize: function(options) {
             _.bindAll(this, 'fetch', 'parse');
-            // First lets fetch the data we'll need and created   
-            console.log("initializing");
-            console.log(this);
         },
             
 	    comparator: function(model) {
 	        var date = new Date(model.get('dateString'));
 	        return -date;
 	    },
-
-        fetch: function(options) {
-            var _this = this;
-
-            $.ajax({
-                type: 'GET',
-                url: '/geet'
-            })
-            .done(function(data) {
-                console.log(this);
-                console.log("fetch is done and 200 = ", data);
-                return data;
-            })
-            .fail(function() {
-                // TODO trigger an error event which should trigger the error render event
-                console.log("fetch failed");
-                return null;
-            });
-        },
 
         parse: function(response) {
             console.log("parsing");
@@ -101,7 +81,7 @@ define([
                 var profileCollectionView = new ProfileCollectionView({collection: profileCollection});
                 profileCollectionView.render();
             } */
-           console.log(modelDataArray);
+           console.log("parsing ", modelDataArray);
            return modelDataArray;
         }
 
