@@ -11,7 +11,7 @@ define([
         url: '/geet',
 
         initialize: function(options) {
-            _.bindAll(this, 'fetch', 'parse');
+            _.bindAll(this, 'parse', 'fetch');
         },
             
 	    comparator: function(model) {
@@ -20,8 +20,7 @@ define([
 	    },
 
         parse: function(response) {
-            console.log("parsing");
-            console.log(response);
+            // TODO REFACTOR THIS
             var modelDataArray = [];
             var data = response;
             for (var i in data) {
@@ -82,6 +81,7 @@ define([
                 profileCollectionView.render();
             } */
            console.log("parsing ", modelDataArray);
+           this.trigger('parsing');
            return modelDataArray;
         }
 
