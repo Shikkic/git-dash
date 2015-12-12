@@ -11,16 +11,62 @@ define([
         var PageView = Backbone.View.extend({
 
             initialize: function(options) {
+                _.bindAll(this, 'toggleLoader', 'toggleEmptyView');
+
+                //
                 // Initiliaze ProfileCollections
+                //
                 console.log("initializing new collection");
-                var profileCollection = new ProfileCollection({});
+                this.profileCollection = new ProfileCollection();
+                this.toggleLoader({init: true});
+
+                /*this.listenTo(this.profileCollection, 'collectionUpdated',
+                    _.bind(function() {
+                        console.log("collection has been updated");
+                        this.toggleLoader()
+                    })
+                );*/
+
+                //
                 // Fetch from our server the new data
-                // Async XHR might be depricated in vanilla js, so becareful
-                // Could toggle the loading gif now
-                profileCollection.fetch({async: false});
-                // Could untoggle it now or on success
-                console.log(profileCollection);
+                //
+                this.profileCollection.fetch({
+                    reset: true,
+                    success: _.bind(function() {
+                        // Can trigger an update event here if we want
+                    }, this)
+                    // Can also include a fail event.
+                });
+
+                //
                 // Initialize Profile-CollectionView
+                //
+                 
+            },
+
+            toggleLoader: function(options) {
+                //TODO Might want these to be properties of the collection-view, not the page view
+                options = (options || {});
+                if (!this.profileCollection.length && options.init) {
+                    // Toggle has been called, but it's the initial call
+                    $('#spinner').show();
+                } else if (!this.profileCollection.length && !options.init) {
+                    // Collection has fetched, but it's empty
+                    this.toggleEmptyView();
+                } else {
+                    // We have a colletion to render that is NOT Empty
+                    $('#spinner').hide();
+                }
+            },
+
+            toggleEmptyView : function() {
+                // TODO REFACTOR THIS TO RENDER AN EMPTY TEMPLATE
+                // TODO Might want these to be properties of the collection-view, not the page view
+                $("#spinner").hide();
+                $("#img-spinner").attr("src", "../assets/help.gif");
+                $("#img-spinner").attr("id", "no-friends");
+                $("#info").append("<span id='no-friends-text'>Looks like you don't have any friends on <a href='http://www.github.com'>Github</a>, try adding some and come back! <3</span");
+                $("#spinner").show();
             }
 
         });
