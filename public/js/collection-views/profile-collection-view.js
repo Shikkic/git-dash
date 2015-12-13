@@ -2,11 +2,11 @@ define([
 	'backbone',
 	'stickit',
 	'../../../js/models/input',
-	"../views/profile-view"
-], function(Backbone, Stickit, InputModel, ProfileView) {
+	"../views/profile-view",
+    "../collections/profile-collection"
+], function(Backbone, Stickit, InputModel, ProfileView, ProfileCollection) {
 
 	var ProfileCollectionView = Backbone.View.extend({
-        collection: null,
 
         viewCollection: null,
 
@@ -17,8 +17,22 @@ define([
         },
 
         initialize: function() {
+            this.collection = new ProfileCollection;
+            this.toggleLoader({init: true});
+
+            // TODO Fix this
             this.model = new InputModel({});
+
             this.listenTo(this.model, {'change:inputVal':this.updateText});
+            this.listenTo(this.collection, 'update', this.toggleLoader);
+
+
+            this.collection.fetch({
+                success: _.bind(function() {
+                    this.trigger("update"); 
+                }, this) 
+            });
+
             this.inputVal = $("#search").val(); 
             this.stickit();
         },
@@ -48,8 +62,34 @@ define([
                     $("#"+username).hide();
                 } 
             });
+        },
+
+        toggleLoader: function(options) {
+            //TODO Might want these to be properties of the collection-view, not the page view
+            options = (options || {});
+            if (!this.collection.length && options.init) {
+                // Toggle has been called, but it's the initial call
+                $('#spinner').show();
+            } else if (!this.collection.length && !options.init) {
+                // Collection has fetched, but it's empty
+                this.toggleEmptyView();
+            } else {
+                // We have a colletion to render that is NOT Empty
+                $('#spinner').hide();
+                this.render();
+            }
+        },
+
+        toggleEmptyView : function() {
+            // TODO REFACTOR THIS TO RENDER AN EMPTY TEMPLATE
+            // TODO Might want these to be properties of the collection-view, not the page view
+            $("#spinner").hide();
+            $("#img-spinner").attr("src", "../assets/help.gif");
+            $("#img-spinner").attr("id", "no-friends");
+            $("#info").append("<span id='no-friends-text'>Looks like you don't have any friends on <a href='http://www.github.com'>Github</a>, try adding some and come back! <3</span");
+            $("#spinner").show();
         }
-        
+
     });
 
 	return ProfileCollectionView;
