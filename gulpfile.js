@@ -1,7 +1,10 @@
+'use strict'
+
 var gulp = require('gulp'),
     exec = require('child_process').exec,
     jshint = require('gulp-jshint'),
-    gutil = require('gulp-util');
+    gutil = require('gulp-util'),
+    sass = require('gulp-sass');
 
 gulp.task('default', ['run', 'watch']);
 
@@ -31,9 +34,15 @@ gulp.task('jshint', function() {
     return gulp.src('./public/js/app.js')
         .pipe(jshint())
         .pipe(jshint.reporter('jshint-stylish', {verbose: true})); 
+});
 
+gulp.task('sass:build', function() {
+    gulp.src('./public/sass/*.scss')
+        .pipe(sass().on('error', sass.logError))
+        .pipe(gulp.dest('./public/css'));
 });
 
 gulp.task('watch', function() {
     gulp.watch('./public/js/app.js', ['jshint']);
+    gulp.watch('./public/sass/*.scss', ['sass']);
 });
