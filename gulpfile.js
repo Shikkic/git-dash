@@ -44,5 +44,5 @@ gulp.task('sass:build', function() {
 
 gulp.task('watch', function() {
     gulp.watch('./public/js/app.js', ['jshint']);
-    gulp.watch('./public/sass/*.scss', ['sass']);
+    gulp.watch('./public/sass/*.scss', ['sass:build']);
 });

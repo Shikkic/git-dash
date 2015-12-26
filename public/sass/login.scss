@@ -1,0 +1,37 @@
+body {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    font-family: 'Roboto Slab';
+    font-weight: 300;
+    margin-top: 0px;
+    margin-left: 0;
+
+    #title {
+        font-size: 35px;
+        margin-bottom: 0px;
+        margin-top: 20px;
+        text-align: center;
+        
+        h1 {
+            font-weight: 300;
+            letter-spacing: 7px;
+            font-family: 'Roboto Slab';
+            margin-bottom: 0px;
+            font-size: 83px;
+        }
+
+        h3 {
+            font-size: 18px;
+            font-weight: 200;
+            color: #26C6DA;
+            margin-bottom: 0px;
+            margin-top: 20px;
+            letter-spacing: 1px;
+        }
+
+        #login-button {
+            margin-top: 50px;
+        }
+    }
+}
