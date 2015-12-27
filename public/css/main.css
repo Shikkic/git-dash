@@ -1,7 +1,174 @@
-#body {
+body {
   position: absolute;
   height: 100%;
   width: 100%;
   font-family: 'Roboto Slab';
   font-weight: 300;
-  margin-top: 0px; }
+  margin-top: 0px;
+  margin-left: 0; }
+  body #title {
+    font-size: 35px;
+    margin-bottom: 0px;
+    margin-top: 20px;
+    text-align: center; }
+    body #title h1 {
+      font-weight: 300;
+      letter-spacing: 7px;
+      font-family: 'Roboto Slab';
+      margin-bottom: 0px;
+      font-size: 83px; }
+    body #title h3 {
+      font-size: 18px;
+      font-weight: 200;
+      color: #26C6DA;
+      margin-bottom: 0px;
+      margin-top: 20px;
+      letter-spacing: 1px; }
+    body #title #login-button {
+      margin-top: 50px; }
+  body nav {
+    background-color: #EEEEEE;
+    box-shadow: none;
+    border-bottom: 1px solid #BDBDBD; }
+    body nav .brand-logo {
+      color: #26C6DA; }
+    body nav ul a {
+      color: #26C6DA; }
+    body nav #logo {
+      font-size: 50px;
+      margin-left: 92px;
+      font-weight: 600;
+      color: #000; }
+    body nav #search {
+      position: absolute;
+      height: 100%;
+      width: 600px;
+      top: 0;
+      left: 50%;
+      margin-left: -300px;
+      font-size: 35px;
+      outline: none;
+      font-family: 'Roboto Slab';
+      font-weight: 100;
+      padding-left: 10px;
+      padding-right: 10px;
+      border: none;
+      color: #000; }
+    body nav #userPcontainer {
+      margin-right: 82px; }
+      body nav #userPcontainer #userProfilePictureContainer {
+        margin-top: 7px;
+        margin-right: 82px; }
+        body nav #userPcontainer #userProfilePictureContainer #userImage {
+          width: 50px;
+          height: 50px;
+          border-radius: 3px; }
+  body #info {
+    position: absolute;
+    height: 100%;
+    width: 100%; }
+    body #info #img-spinner {
+      position: absolute;
+      left: 50%;
+      margin-top: 260px;
+      margin-left: -130px; }
+    body #info #container {
+      text-align: center;
+      margin-bottom: 50px;
+      margin-top: 20px; }
+      body #info #container .git-cards {
+        border: 1px solid black;
+        list-style-type: none;
+        width: 410px;
+        height: 210px;
+        font-family: 'Roboto Slab';
+        overflow: hidden;
+        border-radius: 4px;
+        margin-left: 15px;
+        margin-right: 4px;
+        border-color: #ccc;
+        margin-bottom: 15px;
+        display: inline-block;
+        text-align: left;
+        padding: 0px; }
+        body #info #container .git-cards:hover {
+          z-index: 2; }
+        body #info #container .git-cards .date {
+          margin-left: 140px;
+          margin-top: 0px;
+          color: #b0afaf; }
+        body #info #container .git-cards .profile {
+          list-style-type: none;
+          border-style: hidden;
+          border-radius: 4px;
+          position: absolute;
+          margin-left: 20px;
+          margin-top: 20px;
+          max-width: 100px;
+          max-height: 100px;
+          box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.45);
+          border-radius: 3px; }
+        body #info #container .git-cards .name {
+          margin-left: 140px;
+          margin-top: 20px;
+          margin-bottom: 0px;
+          font-size: 25px;
+          color: #616161;
+          text-decoration: none; }
+        body #info #container .git-cards .star {
+          margin-left: 140px;
+          color: #FFC400; }
+        body #info #container .git-cards .watch {
+          margin-top: 0px;
+          margin-bottom: 0px;
+          margin-left: 5px;
+          font-weight: 300;
+          font-family: 'Roboto Slab';
+          display: inline-block;
+          text-decoration: none;
+          color: #616161; }
+          body #info #container .git-cards .watch:hover {
+            color: #BDBDBD; }
+        body #info #container .git-cards .repo {
+          margin-left: 20px;
+          margin-right: 20px;
+          margin-bottom: 0px;
+          margin-top: 15px;
+          font-size: 20px;
+          color: #616161; }
+          body #info #container .git-cards .repo:hover {
+            color: #BDBDBD; }
+        body #info #container .git-cards .msg {
+          margin-left: 20px;
+          margin-right: 20px;
+          margin-bottom: 0px;
+          margin-top: 10px;
+          font-size: 12px;
+          color: #9E9E9E; }
+        body #info #container .git-cards .hidden {
+          display: none; }
+  body .footr {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 30px;
+    background-color: #EEE;
+    color: #9E9; }
+    body .footr p {
+      position: absolute;
+      margin-top: 5px;
+      margin-left: -70px;
+      left: 50%;
+      color: #424242; }
+      body .footr p .plink {
+        text-decoration: none;
+        color: #616161; }
+        body .footr p .plink:hover {
+          text-decoration: none;
+          color: #9E9E9E;
+          cursor: pointer; }
+      body .footr p i {
+        color: #B71C1C; }
+        body .footr p i:hover {
+          color: #C62828; }

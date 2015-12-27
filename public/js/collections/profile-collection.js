@@ -48,7 +48,7 @@ define([
                         commitMsg: commit,
                         commitSha, commitSha,
                         commitUrl: commitUrl,
-                        data: "Last pushed "+ Moments(userData.eventData.pushEvents.created_at).fromNow(),
+                        date: "Last pushed "+ Moments(userData.eventData.pushEvents.created_at).fromNow(),
                         dateString: userData.eventData.pushEvents.created_at
                     };
                         
