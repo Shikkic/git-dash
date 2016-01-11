@@ -56,20 +56,34 @@ body {
         }
 
         #search {
-           position: absolute; 
-           height: 100%;
-           width: 600px;
-           top: 0;
-           left: 50%;
-           margin-left: -300px;
-           font-size: 35px;
-           outline: none;
-           font-family: 'Roboto Slab';
-           font-weight: 100;
-           padding-left: 10px;
-           padding-right: 10px;
-           border: none;
-           color: #000;
+            position: absolute; 
+            height: 100%;
+            width: 600px;
+            top: 0;
+            left: 50%;
+            margin-left: -300px;
+            font-size: 35px;
+            outline: none;
+            font-family: 'Roboto Slab';
+            font-weight: 100;
+            padding-left: 10px;
+            padding-right: 10px;
+            border: none;
+            color: #000;
+        }
+        
+        .navUserCountContainer {
+            color: #000;
+            line-height: 1.2;
+            text-align: center;
+            margin-top: 15px;
+            margin-right: 5px;
+            margin-left: 5px;
+
+            .countName {
+                line-height: 0;
+                font-size: 12px;
+            }
         }
 
         #userPcontainer {
