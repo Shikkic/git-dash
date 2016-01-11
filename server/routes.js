@@ -35,17 +35,17 @@ module.exports = function(app, request, async, passport) {
                 res.render('app', data);
             });
         });*/
-        var gitUrl = "https://api.github.com/users/"+ name +"/events?access_token="+userToken;
+        var gitUrl = "https://api.github.com/user?access_token="+userToken;
         var options = {
             url: gitUrl,
             headers: {
                 'User-Agent': name
             }
         }; 
-        getRequest(gitUrl, options, 1, function(userData) {
-            console.log(userData);
-            res.render('app', {data: userData});
-            //res.send(data);
+        request.get(options, function(error, response, userData) {
+            if (!error) {
+                res.render('app', {data: JSON.parse(userData)});
+            }
         });
     });
 
