@@ -1,21 +1,29 @@
-var path = require('path');
-var express = require('express');
-var app = express();
-var request = require('request');
-var async = require('async');
-var passport = require('passport');
-var mongoose = require('mongoose');
-var morgan = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var session = require('express-session');
-var mustacheExpress = require('mustache-express');
-var gh = require('gh-scrape');
+/*
+///////////////////////////////////
+//      Import Libraries        ///
+///////////////////////////////////
+*/
+var path = require('path'),
+    express = require('express'),
+    app = express(),
+    request = require('request'),
+    async = require('async'),
+    passport = require('passport'),
+    mongoose = require('mongoose'),
+    morgan = require('morgan'),
+    cookieParser = require('cookie-parser'),
+    bodyParser = require('body-parser'),
+    session = require('express-session'),
+    mustacheExpress = require('mustache-express'),
+    gh = require('gh-scrape');
 
+/*
+/////////////////////////////////////
+//          Set up DB              //
+/////////////////////////////////////
+*/
 var configDB = require('./config/database.js');
-
 mongoose.connect(configDB.url); // connect to our database
-
 require('./config/passport.js')(passport);
 
 /*
@@ -23,7 +31,7 @@ require('./config/passport.js')(passport);
 //           MIDDLEWARE            //
 /////////////////////////////////////
 */
-// Setting up Mustache 
+// Setting up Mustache Rendering
 app.engine('mustache', mustacheExpress());
 app.set('view engine', 'mustache');
 app.set('views', path.join(__dirname, 'views'));

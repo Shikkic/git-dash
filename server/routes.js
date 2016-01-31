@@ -1,8 +1,9 @@
-var path = require('path');
-var fs = require('fs');
-var gh = require('gh-scrape');
-var moment = require('moment');
-var LOGIN_PAGE = path.join(__dirname, '..', 'public', 'pages', 'login.html');
+var path = require('path'),
+    fs = require('fs'),
+    gh = require('gh-scrape'),
+    moment = require('moment'),
+    LOGIN_PAGE = path.join(__dirname, '..', 'public', 'pages', 'login.html'),
+    _ = require('underscore');
 
 module.exports = function(app, request, async, passport) {
     
@@ -21,27 +22,19 @@ module.exports = function(app, request, async, passport) {
     ///      Default landing page / login   ///
     ///////////////////////////////////////////
     app.get('/', isLoggedIn, function(req, res) {
-        //res.sendfile('./public/pages/app.html');
-        //res.render('app', {lol: 'hey'});
-        var name = req.user.github.username;
-        var userToken = req.user.github.token;
-        // Grabs Friends List, returns array of names
-        // TODO 
-        /*
-        getFriendsList(name, userToken, function(names) {
-            // Retrieves Data For Each Friend
-            userData(names, names, userToken, function(results) {
-                var data = {data: createModels(results)};
-                res.render('app', data);
-            });
-        });*/
-        var gitUrl = "https://api.github.com/user?access_token="+userToken;
-        var options = {
-            url: gitUrl,
-            headers: {
-                'User-Agent': name
-            }
-        }; 
+        // Parse name and user token and set request options
+        var name = req.user.github.username,
+            userToken = req.user.github.token,
+            gitUrl = "https://api.github.com/user?access_token="+userToken,
+            options = {
+                url: gitUrl,
+                headers: {
+                    'User-Agent': name
+                }
+            };
+
+        // Make requests for nav bar 
+        // TODO REMOVE THIS AND MAKE FE GRAB THIS DATA 
         request.get(options, function(error, response, userData) {
             if (!error) {
                 res.render('app', {data: JSON.parse(userData)});

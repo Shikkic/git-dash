@@ -36,7 +36,8 @@
     "passport-github": "^0.1.5",
     "passport-github2": "^0.1.9",
     "path": "^0.12.7",
-    "request": "^2.57.0"
+    "request": "^2.57.0",
+    "underscore": "^1.8.3"
   },
   "devDependencies": {
     "gulp": "^3.9.0",
