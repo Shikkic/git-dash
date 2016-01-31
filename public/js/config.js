@@ -11,7 +11,8 @@ requirejs.config({
       "mustache": "mustache",
       "underscore": "underscore-min",
       "backbone": "backbone-min",
-      "stickit": "backbone.stickit"
+      "stickit": "backbone.stickit",
+      "countup": "countUp.min"
     },
 
     shim: {

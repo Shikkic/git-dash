@@ -27,7 +27,7 @@ body {
     body #title #login-button {
       margin-top: 50px; }
   body nav {
-    background-color: #EEEEEE;
+    background-color: #FFF;
     box-shadow: none;
     border-bottom: 1px solid #BDBDBD; }
     body nav .brand-logo {
@@ -54,8 +54,20 @@ body {
       padding-right: 10px;
       border: none;
       color: #000; }
+    body nav .navUserCountContainer {
+      line-height: 1.2;
+      text-align: center;
+      margin-top: 15px;
+      margin-right: 5px;
+      margin-left: 5px; }
+      body nav .navUserCountContainer .countNum {
+        color: #000; }
+      body nav .navUserCountContainer .countName {
+        line-height: 0;
+        font-size: 12px;
+        color: #797f7f; }
     body nav #userPcontainer {
-      margin-right: 82px; }
+      margin-left: 20px; }
       body nav #userPcontainer #userProfilePictureContainer {
         margin-top: 7px;
         margin-right: 82px; }
@@ -66,7 +78,16 @@ body {
   body #info {
     position: absolute;
     height: 100%;
-    width: 100%; }
+    width: 100%;
+    overflow: auto;
+    background-color: #f1f4f4; }
+    body #info #spinner {
+      position: absolute;
+      left: 50%;
+      margin-top: 100px;
+      margin-left: -50px;
+      width: 100px;
+      height: 100px; }
     body #info #img-spinner {
       position: absolute;
       left: 50%;
@@ -153,8 +174,9 @@ body {
     left: 0;
     right: 0;
     height: 30px;
-    background-color: #EEE;
-    color: #9E9; }
+    background-color: #FFF;
+    color: #9E9;
+    border-top: 1px solid #BDBDBD; }
     body .footr p {
       position: absolute;
       margin-top: 5px;

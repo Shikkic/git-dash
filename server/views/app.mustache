@@ -15,23 +15,40 @@
       			<a href="https://github.com/shikkic/gitDash" id="logo" class="brand-logo">GitDash</a>
         		<input id="search" placeholder="Enter a friend's github username"/>
       			<ul id="nav-mobile" class="right hide-on-med-and-down">
+                    <li class="navUserCountContainer">
+                        <a class="countNum" id="userFollowerCount" value={{data.followers}}>0</a>
+                        <span class="countName">Followers</span>
+                    </li>
+                    <li class="navUserCountContainer">
+                        <a class="countNum" id="userFollowingCount" value="{{data.following}}">0</a>
+                        <span class="countName">Following</span>
+                    </li>
+                    <li class="navUserCountContainer">
+                        <a class="countNum" id="publicRepoCount" value="{{data.public_repos}}">0</a>
+                        <span class="countName">Public Repos</span>
+                    </li>
                     <li id="userPcontainer">
                         <div id="userProfilePictureContainer">
-                            <img id="userImage" src="{{data.actor.avatar_url}}"/>
+                            <img id="userImage" src="{{data.avatar_url}}"/>
                         </div>
                     </li>
 				</ul>
+
 			</div>
  		</nav>
         <section id="info">
-            <div id="spinner" class="spinner" style="display:none;">
-                    <img id="img-spinner" src="../assets/loader.gif" alt="Loading"/>
-            </div>
-            <ul id="container" class="list-inline">
-                <!--{{#data}}
-                    {{> card}}
-                    {{/data}}-->
-            </ul>
+			<div class="preloader-wrapper big active spinner" id="spinner" style="display:none;">
+				<div class="spinner-layer spinner-blue-only img-spinner">
+				    <div class="circle-clipper left">
+					    <div class="circle"></div>
+				    </div><div class="gap-patch">
+					<div class="circle"></div>
+				    </div><div class="circle-clipper right">
+					    <div class="circle"></div>
+				    </div>
+				</div>
+			</div>
+            <ul id="container" class="list-inline"></ul>
         </section>
         <footer class="footr">
             <p> Made with <i class="fa fa-heart"></i> by <a class="plink" href='http://www.github.com/Shikkic'</a>Shikkic</p>
