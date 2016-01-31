@@ -1,10 +1,10 @@
-define(['backbone'], function(Backbone){
+define(['backbone'], function(Backbone) {
 
-	var InputModel = Backbone.Model.extend({
+    var InputModel = Backbone.Model.extend({
         initialize: function() {
             console.log(this);
-        }    
-   	});
+        }
+    });
 
-   	return InputModel;
+    return InputModel;
 });

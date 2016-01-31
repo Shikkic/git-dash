@@ -1,34 +1,37 @@
 define([
     'backbone',
     'mustache',
-    'countup'
-], function(Backbone, Mustache, CountUp) {
+    'countup',
+    '../models/nav-stats'
+], function(Backbone, Mustache, CountUp, NavStatsModel) {
 
-    var NavStats = Backbone.View.extend({ 
+    var NavStatsView = Backbone.View.extend({ 
 
         initialize: function() {
-            this.render();
+            this.model = new NavStatsModel({});
+    
+            this.listenTo(this.model, 'change', this.render);
+            
+            this.model.fetch();
         },
 
         render: function() {
-            this.renderFollowers();
-            this.renderFollowing();
-            this.renderPublicRepos();
+            console.log("MADE IT TO RENDER", this.model);
+            this.renderTotalContributrions();
+            this.renderLongestStreak();
+            this.renderCurrentStreak();
         },
 
-        renderFollowers: function() {
-            var userFollowerCount = $('#userFollowerCount').attr("value");
-            this.slowCount("userFollowerCount", userFollowerCount);
+        renderTotalContributrions: function() {
+            this.slowCount("userFollowerCount", this.model.get('totalContributions'));
         },
 
-        renderFollowing: function() {
-            var userFollowingCount = $('#userFollowingCount').attr("value");
-            this.slowCount("userFollowingCount", userFollowingCount);
+        renderLongestStreak: function() {
+            this.slowCount("userFollowingCount", this.model.get('longestStreak'));
         },
 
-        renderPublicRepos: function() {
-            var publicRepoCount = $('#publicRepoCount').attr("value");
-            this.slowCount("publicRepoCount", publicRepoCount);
+        renderCurrentStreak: function() {
+            this.slowCount("publicRepoCount", this.model.get('currentStreak'));
         },
 
         slowCount: function(elementName, value) {
@@ -43,9 +46,8 @@ define([
             var demo = new CountUp(elementName, 0, value, 0, 2.5, options);
             demo.start();
         }
-
     });
 
-    return NavStats;
+    return NavStatsView;
 
 });

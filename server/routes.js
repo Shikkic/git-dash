@@ -19,10 +19,20 @@ module.exports = function(app, request, async, passport) {
     });
 
     ///////////////////////////////////////////
+    //       Returns Nav Bar User Stats      //
+    ///////////////////////////////////////////
+    app.get('/userNavBarStats', function(req, res) {
+        //var name = req.user.github.username;
+        gh.scrapeContributionStats("https://github.com/shikkic", function(data) {
+            res.send(data);
+        });
+    });
+
+    ///////////////////////////////////////////
     ///      Default landing page / login   ///
     ///////////////////////////////////////////
     app.get('/', isLoggedIn, function(req, res) {
-        // Parse name and user token and set request options
+		// Parse name and user token and set request options
         var name = req.user.github.username,
             userToken = req.user.github.token,
             gitUrl = "https://api.github.com/user?access_token="+userToken,
@@ -33,8 +43,8 @@ module.exports = function(app, request, async, passport) {
                 }
             };
 
-        // Make requests for nav bar 
-        // TODO REMOVE THIS AND MAKE FE GRAB THIS DATA 
+        // Make requests for nav bar
+        // TODO REMOVE THIS AND MAKE FE GRAB THIS DATA
         request.get(options, function(error, response, userData) {
             if (!error) {
                 res.render('app', {data: JSON.parse(userData)});
