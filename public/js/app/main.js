@@ -13,7 +13,7 @@ define([
 
             initialize: function(options) {
                 console.log("Creating Collection View");
-                var navstats = new Navstats();
+                this.navstats = new Navstats();
 
                 this.profileCollectionView = new ProfileCollectionView({});
             }
