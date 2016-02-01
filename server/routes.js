@@ -158,6 +158,7 @@ module.exports = function(app, request, async, passport) {
         var count = 0; 
         async.times(friendsList.length, function(_, next) {
             var gitUrl = 'https://api.github.com/users/'+friendsList[count]+'?access_token='+userToken;
+            console.li
             var options = {
                 url: gitUrl,
                 headers: {
