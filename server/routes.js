@@ -11,7 +11,8 @@ module.exports = function(app, request, async, passport) {
     app.get('/lol', function(req, res) { 
         var name = req.user.github.username;
         var userToken = req.user.github.token;
-        getFriendsList(name, userToken, function(names) {
+        getFriendsList("shikkic",'882801a34eecf0c43759cfceea69c4e83a225d59', function(names) {
+            res.send(names);
             userData(name, names, userToken, function(results) {
                 res.render('login', {data: results});
             });
@@ -112,7 +113,7 @@ module.exports = function(app, request, async, passport) {
                     getFriendsPersonalData(name, userToken, names, function(personalData) {
                     var userList = [];
                     // TODO create a function for this!
-                    for (var i = 0; i < data.length - 1; i++) {
+                    for (var i = 0; i < names.length; i++) {
                         var user = {
                             contributions: results[i],
                             eventData: data[i],
@@ -174,7 +175,6 @@ module.exports = function(app, request, async, passport) {
     };
 
     function getFriendsProfileData(name, friendsList, eventData, callback) {
-        console.log(friendsList);
         var count = 0; 
         async.times(friendsList.length, function(_, next) { 
             var name = friendsList[count];
@@ -353,7 +353,6 @@ module.exports = function(app, request, async, passport) {
     };
 
 function scrapeCon(html, callback) {
-    console.log("made it to the begining");
     var user = {},
         j = 0,
         z = 0,
