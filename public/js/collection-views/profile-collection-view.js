@@ -17,6 +17,7 @@ define([
         },
 
         initialize: function() {
+			_.bindAll(this, 'visibleItemsEmpty');
             this.collection = new ProfileCollection;
             this.toggleLoader({init: true});
 
@@ -54,14 +55,30 @@ define([
 
         filter: function() {
             var inputValue = this.inputVal.toLowerCase();
-            this.viewCollection.forEach(function(item) {
-                var username = item.model.attributes.user.toLowerCase();
+            for(var i = 0; i < this.viewCollection.length; i++) {
+                var item = this.viewCollection[i];
+                var username = item.model.attributes.userID.toLowerCase();
                 if(username.indexOf(inputValue) > -1 || username.length === 0) {
                     $("#"+username).show();
                 } else { 
                     $("#"+username).hide();
                 } 
-            });
+            }
+            console.log(this.visibleItemsEmpty());
+            if (this.visibleItemsEmpty()) {
+                // RENDER MUSTACHE TEMPLATE HERE
+                this.toggleEmptyView();
+            }
+        },
+
+        visibleItemsEmpty: function() {
+            for(var i = 0; i< this.viewCollection.length; i++) {
+                var username = this.viewCollection[i].model.get('userID').toLowerCase();
+                if ($('#'+username).is(':visible')) {
+                    return false;
+                }
+            }
+            return true;
         },
 
         toggleLoader: function(options) {
