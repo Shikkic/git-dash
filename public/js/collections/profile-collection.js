@@ -23,64 +23,78 @@ define([
             // TODO REFACTOR THIS
             var modelDataArray = [];
             var data = response;
-            for (var i in data) {
-                var userData = data[i];
-                if (userData.eventData.pushEvents ) {
-                    // Throwing error since some commits didn't have specifc data
-                    if (data[i].eventData.pushEvents.payload.commits[0]) {
-                        var commit = data[i].eventData.pushEvents.payload.commits.length ? data[i].eventData.pushEvents.payload.commits[0].message : " ";
-                        var commitMsg = data[i].eventData.pushEvents.payload.commits.length ? data[i].eventData.pushEvents.payload.commits[0].sha.slice(0 ,5) : "";
-                        var commitSha = data[i].eventData.pushEvents.payload.commits[0].sha.slice(0,5);
-                        var commitUrl ='http://github.com/'+data[i].eventData.pushEvents.repo.name+'/commit/'+data[i].eventData.pushEvents.payload.commits[0].sha;
+            for(var i = 0; i < response.length; i++) {
+                var userData = response[i];
+
+                gitCardModelData = {};
+                if (userData) {
+                    if (userData && userData.eventData && userData.eventData.pushEvents ) {
+                        // Throwing error since some commits didn't have specifc data
+                        if (userData.eventData.pushEvents.payload.commits[0]) {
+                            var commit = userData.eventData.pushEvents.payload.commits.length ? userData.eventData.pushEvents.payload.commits[0].message : " ";
+                            var commitMsg = userData.eventData.pushEvents.payload.commits.length ? userData.eventData.pushEvents.payload.commits[0].sha.slice(0 ,5) : "";
+                            var commitSha = userData.eventData.pushEvents.payload.commits[0].sha.slice(0,5);
+                            var commitUrl ='http://github.com/'+userData.eventData.pushEvents.repo.name+'/commit/'+userData.eventData.pushEvents.payload.commits[0].sha;
+                            var repoName = userData.eventData.pushEvents.repo.name;
+                            var date = "Last pushed "+ Moments(userData.eventData.pushEvents.created_at).fromNow();
+                            var dateString = userData.eventData.pushEvents.created_at;
+                        } else {
+                            var commit = "N/A";
+                            var commitMsg = "No recent commits";
+                            var commitSha = "N/A";
+                            var commitUrl = "N/A";
+                            var repoName = "N/A";
+                            var data = "N/A";
+                            var dateString = "2015-01-31T23:04:09Z";
+                        }
                     } else {
-                        var commit = "";
-                        var commitMsg = "";
+                        var commit = "N/A";
+                        var commitMsg = "No recent commits";
                         var commitSha = "";
-                        var commitUrl = "";
+                        var commitUrl = "N/A";
+                        var repoName = "No recent commits";
+                        var data = "N/A";
+                        var dateString = "2015-01-31T23:04:09Z";
                     }
 
 
                     gitCardModelData = {
-                        imgUrl: userData.eventData.pushEvents.actor.avatar_url,
-                        user: userData.eventData.pushEvents.actor.login,
-                        userID: userData.eventData.pushEvents.actor.login.toLowerCase(),
-                        repoName: userData.eventData.pushEvents.repo.name,
+                        repoName: repoName,
                         commitMsg: commit,
                         commitSha, commitSha,
                         commitUrl: commitUrl,
-                        date: "Last pushed "+ Moments(userData.eventData.pushEvents.created_at).fromNow(),
-                        dateString: userData.eventData.pushEvents.created_at
+                        date: date, 
+                        dateString: dateString
                     };
-                        
+                            
 
-                    if (userData.eventData.watchEvents) {
+                    if (userData && userData.eventData && userData.eventData.watchEvents) {
                         // If a user has watched events (stars) set them
                         gitCardModelData.watch = userData.eventData.watchEvents.repo.name;
-                        gitCardModelData.watchUrl = 'http://www.github.com/'+data[i].eventData.watchEvents.repo.name; 
+                        gitCardModelData.watchUrl = 'http://www.github.com/'+userData.eventData.watchEvents.repo.name; 
+                    } else {
+                        gitCardModelData.watch = "N/A";
+                        gitCardModelData.watchUrl = "N/A";
                     }
 
-                } if (userData.contributions) {
-                        gitCardModelData.currentStreak = userData.contributions.currentStreaks;
-                        gitCardModelData.longestStreak = userData.contributions.longestStreaks;
-                        gitCardModelData.totalContributions = userData.contributions.totals;
-                } if (userData.personalData) {
-                        gitCardModelData.company = userData.personalData.personalData.company;
-                        gitCardModelData.location = userData.personalData.personalData.location;
-                        //TODO add these to the view
-                        gitCardModelData.blog = userData.personalData.personalData.blog;
+                    if (userData.contributions) {
+                            gitCardModelData.currentStreak = userData.contributions.currentStreaks;
+                            gitCardModelData.longestStreak = userData.contributions.longestStreaks;
+                            gitCardModelData.totalContributions = userData.contributions.totals;
+                    } if (userData.personalData) {
+                            var personalData = userData.personalData.personalData;
+                            gitCardModelData.company = userData.personalData.personalData.company;
+                            gitCardModelData.location = userData.personalData.personalData.location;
+                            //TODO add these to the view
+                            gitCardModelData.blog = userData.personalData.personalData.blog;
+                            gitCardModelData.imgUrl = personalData.avatar_url;
+                            gitCardModelData.user = personalData.name ? personalData.name : personalData.login;
+                            gitCardModelData.userID = personalData.login.toLowerCase();
+                    }
+                    modelDataArray.push(gitCardModelData);
                 }
-
-                modelDataArray.push(gitCardModelData);
-            }
-
-            /*// User has friends, initial render
-            if(profileCollection.length) {
-                $('#spinner').hide();
-                profileCollection.sort();
-                var profileCollectionView = new ProfileCollectionView({collection: profileCollection});
-                profileCollectionView.render();
-            } */
-           console.log("parsing ", modelDataArray);
+           }
+        
            this.trigger('parsing');
            return modelDataArray;
         }
