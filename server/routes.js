@@ -7,18 +7,6 @@ var path = require('path'),
 
 module.exports = function(app, request, async, passport) {
     
-    // TEST TODO might need to remove this code?
-    app.get('/lol', function(req, res) { 
-        var name = req.user.github.username;
-        var userToken = req.user.github.token;
-        getFriendsList("shikkic",'882801a34eecf0c43759cfceea69c4e83a225d59', function(names) {
-            res.send(names);
-            userData(name, names, userToken, function(results) {
-                res.render('login', {data: results});
-            });
-        });
-    });
-
     ///////////////////////////////////////////
     //       Returns Nav Bar User Stats      //
     ///////////////////////////////////////////
