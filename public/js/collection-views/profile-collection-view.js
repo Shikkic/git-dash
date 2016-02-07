@@ -1,10 +1,12 @@
 define([
 	'backbone',
+    'mustache',
 	'stickit',
 	'../../../js/models/input',
 	"../views/profile-view",
-    "../collections/profile-collection"
-], function(Backbone, Stickit, InputModel, ProfileView, ProfileCollection) {
+    "../collections/profile-collection",
+    "text!../../../templates/empty-search.mustache"
+], function(Backbone, Mustache, Stickit, InputModel, ProfileView, ProfileCollection, EmptySearchTemplate) {
 
 	var ProfileCollectionView = Backbone.View.extend({
 
@@ -67,7 +69,9 @@ define([
             console.log(this.visibleItemsEmpty());
             if (this.visibleItemsEmpty()) {
                 // RENDER MUSTACHE TEMPLATE HERE
-                this.toggleEmptyView();
+                this.renderEmptySearch(inputValue);
+            } else {
+                this.removeEmptySearch();
             }
         },
 
@@ -97,9 +101,18 @@ define([
             }
         },
 
+        renderEmptySearch(searchValue) {
+            $('#emptyView').html(Mustache.render(EmptySearchTemplate, {'searchValue': searchValue}));
+        },
+
+        removeEmptySearch() {
+            $('#emptyView').html('');
+        },
+
         toggleEmptyView : function() {
             // TODO REFACTOR THIS TO RENDER AN EMPTY TEMPLATE
             // TODO Might want these to be properties of the collection-view, not the page view
+            // TODO DELETE THIS IT"S CAUSING PERFORMANCE ISSUES
             $("#spinner").hide();
             $("#img-spinner").attr("src", "../assets/help.gif");
             $("#img-spinner").attr("id", "no-friends");
