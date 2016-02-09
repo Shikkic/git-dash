@@ -1,5 +1,5 @@
 body {
-  position: absolute;
+  position: relative;
   height: 100%;
   width: 100%;
   font-family: 'Roboto Slab';
@@ -70,17 +70,19 @@ body {
       margin-left: 20px; }
       body nav #userPcontainer #userProfilePictureContainer {
         margin-top: 7px;
-        margin-right: 82px; }
+        margin-right: 82px;
+        height: 50px; }
         body nav #userPcontainer #userProfilePictureContainer #userImage {
           width: 50px;
           height: 50px;
           border-radius: 3px; }
   body #info {
-    position: absolute;
+    position: relative;
     height: 100%;
     width: 100%;
     overflow: auto;
-    background-color: #f1f4f4; }
+    background-color: #f1f4f4;
+    min-height: 88vh; }
     body #info #spinner {
       position: absolute;
       left: 50%;
@@ -169,7 +171,7 @@ body {
         body #info #container .git-cards .hidden {
           display: none; }
   body .footr {
-    position: fixed;
+    position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
