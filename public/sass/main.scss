@@ -49,26 +49,21 @@ body {
         }
 
         #logo {
-            font-size: 50px;
-            margin-left: 92px;
+            position: static;
+            font-size: 32px;
+            margin-left: 20px;
+            margin-right: 20px;
             font-weight: 600;
             color: #000;
         }
 
         #search {
-            position: absolute; 
-            height: 100%;
-            width: 600px;
-            top: 0;
-            left: 50%;
-            margin-left: -300px;
-            font-size: 35px;
-            outline: none;
+            width: 450px;
+            font-size: 22px;
             font-family: 'Roboto Slab';
             font-weight: 100;
             padding-left: 10px;
             padding-right: 10px;
-            border: none;
             color: #000;
         }
         
@@ -127,6 +122,18 @@ body {
             margin-left: -300px;
             background-color: #FFF;
             box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12);
+
+            .empty-view-title {
+                font-size: 25px;
+                font-weight: 300;
+                word-wrap: break-word;
+                padding: 0 20px;
+            }
+
+            .empty-view-subtitle {
+                font-size: 20px;
+                font-weight: 300;
+            }
         }
 
         #spinner {
