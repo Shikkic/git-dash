@@ -115,14 +115,28 @@ body {
         background-color: #f1f4f4;
         min-height: 88vh;
 
-		#spinner {
-			position: absolute;
-			left: 50%;
-			margin-top: 100px;
-			margin-left: -50px;	
-			width: 100px;
-			height: 100px;
-		}
+        #emptyView {
+            position: absolute;
+            width: 600px;
+            font-size: 25px;
+            text-align: center;
+            border: 1px solid #ccc;
+            border-radius: 1.5px;
+            left: 50%;
+            margin-top: 60px;
+            margin-left: -300px;
+            background-color: #FFF;
+            box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12);
+        }
+
+        #spinner {
+            position: absolute;
+            left: 50%;
+            margin-top: 100px;
+            margin-left: -50px;	
+            width: 100px;
+            height: 100px;
+        }
 
         #img-spinner {
             position: absolute;
