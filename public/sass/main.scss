@@ -106,7 +106,7 @@ body {
 
             #userProfilePictureContainer {
                 margin-top: 12px;
-                margin-right: 82px;
+                margin-right: 20px;
                 height: 50px;
 
                 #userImage {
@@ -114,6 +114,15 @@ body {
                     height: 38px;
                     border-radius: 3px;
                 }
+            }
+        }
+
+        #profile-button {
+            margin-right: 20px;
+            color: black;
+            
+            i {
+                font-size: 25px;
             }
         }
     }
