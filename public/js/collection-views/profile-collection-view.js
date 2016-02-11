@@ -57,21 +57,23 @@ define([
 
         filter: function() {
             var inputValue = this.inputVal.toLowerCase();
-            for(var i = 0; i < this.viewCollection.length; i++) {
-                var item = this.viewCollection[i];
-                var username = item.model.attributes.userID.toLowerCase();
-                if(username.indexOf(inputValue) > -1 || username.length === 0) {
-                    $("#"+username).show();
-                } else { 
-                    $("#"+username).hide();
-                } 
-            }
-            console.log(this.visibleItemsEmpty());
-            if (this.visibleItemsEmpty()) {
-                // RENDER MUSTACHE TEMPLATE HERE
-                this.renderEmptySearch(inputValue);
-            } else {
-                this.removeEmptySearch();
+            if (this.viewCollection) {
+                for(var i = 0; i < this.viewCollection.length; i++) {
+                    var item = this.viewCollection[i];
+                    var username = item.model.attributes.userID.toLowerCase();
+                    if(username.indexOf(inputValue) > -1 || username.length === 0) {
+                        $("#"+username).show();
+                    } else { 
+                        $("#"+username).hide();
+                    } 
+                }
+                console.log(this.visibleItemsEmpty());
+                if (this.visibleItemsEmpty()) {
+                    // RENDER MUSTACHE TEMPLATE HERE
+                    this.renderEmptySearch(inputValue);
+                } else {
+                    this.removeEmptySearch();
+                }
             }
         },
 
