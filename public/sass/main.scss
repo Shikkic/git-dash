@@ -182,6 +182,16 @@ body {
             margin-bottom: 50px;
             margin-top: 20px;
 
+            #my-profile {
+                position: absolute;
+                right: 0;
+                background-color: #FFF;
+                top: 0;
+                width: 388px;
+                height: 100%;
+                border-left: solid 1px #BDBDBD; 
+            }
+
             .git-cards {
                 border: 1px solid black;
                 list-style-type: none;
