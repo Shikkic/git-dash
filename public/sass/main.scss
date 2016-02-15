@@ -7,6 +7,11 @@ body {
     margin-top: 0px;
     margin-left: 0;
 
+    nav {
+        position: fixed;
+        z-index: 1;
+    }
+
     #title {
         font-size: 35px;
         margin-bottom: 0px;
@@ -180,7 +185,17 @@ body {
         #container {
             text-align: center;
             margin-bottom: 50px;
-            margin-top: 20px;
+            margin-top: 90px;
+
+            &.show-profile {
+                margin-right: 388px;
+                transition: margin-right .2s;
+            }
+
+            &.hide-profile {
+                margin-right: 0px;
+                transition: margin-right .2s;
+            }
 
             #my-profile {
                 position: absolute;
@@ -190,6 +205,16 @@ body {
                 width: 388px;
                 height: 100%;
                 border-left: solid 1px #BDBDBD; 
+
+                &.show-my-profile {
+                    width: 388px; 
+                    transition: width .2s; 
+                }
+
+                &.hide-my-profile {
+                    width: 0;
+                    transition: width .2s;
+                }
             }
 
             .git-cards {
