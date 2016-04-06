@@ -3,6 +3,8 @@
 Git dash is a dashboard interface for staying current with what your freinds on Github are working on!
 The goal was to make it easier to stay relevant with peoples interests and projects to help make reaching out easier.
 
+![gitdash](http://i.imgur.com/7EM9Yr6.gif)
+
 ## TODOS
 
 - FE should be completely refactor to use AMD
