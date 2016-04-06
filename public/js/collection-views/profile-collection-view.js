@@ -104,11 +104,11 @@ define([
         },
 
         renderEmptySearch(searchValue) {
-            $('#emptyView').html(Mustache.render(EmptySearchTemplate, {'searchValue': searchValue}));
+            $('#emptyView').html(Mustache.render(EmptySearchTemplate, {'searchValue': searchValue})).removeClass("no-border");
         },
 
         removeEmptySearch() {
-            $('#emptyView').html('');
+            $('#emptyView').html('').addClass("no-border");
         },
 
         toggleEmptyView : function() {
