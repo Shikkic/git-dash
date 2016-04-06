@@ -13,7 +13,7 @@ The goal was to make it easier to stay relevant with peoples interests and proje
 - Design and Implemeant large profile cards
 - Lookinto left hand column user profile 
 
-## Installation 
+## Dev Installation 
 
 **Note**: Github uses the [Github API](https://developer.github.com/v3/), a [developer account and app application](https://developer.github.com/program/) are required
 
@@ -26,7 +26,7 @@ npm install
 ... which installs the dependencies, and you should be good to go!
 
 ```
-node index.js
+gulp
 ```
 
 ### Warnings
