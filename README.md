@@ -5,14 +5,6 @@ The goal was to make it easier to stay relevant with peoples interests and proje
 
 ![gitdash](http://i.imgur.com/7EM9Yr6h.gif)
 
-## TODOS
-
-- FE should be completely refactor to use AMD
-- Implement Collections and actuallly use models/views correctly
-- Implement a popup/modal-offclick overlay
-- Design and Implemeant large profile cards
-- Lookinto left hand column user profile 
-
 ## Dev Installation 
 
 **Note**: Github uses the [Github API](https://developer.github.com/v3/), a [developer account and app application](https://developer.github.com/program/) are required
